@@ -1,4 +1,4 @@
-/* @(#) pf_inner.c 98/03/16 1.7 */
+/* @(#) ex_inner.c 98/03/16 1.7 */
 /***************************************************************
 ** Inner Interpreter for Forth based on 'C'
 **
@@ -1866,6 +1866,12 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
             M_DROP;
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
+
+         case ID_INCLUDE_CLIB:
+            PUSH_TOS;
+            TOS = 37;
+            endcase;
+            
 
         default:
             ERR("pfCatch: Unrecognised token = 0x");

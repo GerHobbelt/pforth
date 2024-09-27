@@ -1,4 +1,4 @@
-/* @(#) pfcompil.h 96/12/18 1.11 */
+/* @(#) excompil.h 96/12/18 1.11 */
 
 #ifndef _pforth_compile_h
 #define _pforth_compile_h

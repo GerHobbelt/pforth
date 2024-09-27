@@ -1,7 +1,7 @@
 /*  @(#) pfinnrfp.h 98/02/26 1.4 */
 /***************************************************************
 ** Compile FP routines.
-** This file is included from "pf_inner.c"
+** This file is included from "ex_inner.c"
 **
 ** These routines could be left out of an execute only version.
 **

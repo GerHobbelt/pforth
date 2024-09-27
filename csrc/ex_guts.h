@@ -1,6 +1,6 @@
-/* @(#) pf_guts.h 98/01/28 1.4 */
-#ifndef _pf_guts_h
-#define _pf_guts_h
+/* @(#) ex_guts.h 98/01/28 1.4 */
+#ifndef _ex_guts
+#define _ex_guts
 
 /***************************************************************
 ** Include file for PForth, a Forth based on 'C'
@@ -297,7 +297,7 @@ enum cforth_primitive_ids
 /* Only reserve space if we are adding FP so that we can detect
 ** unsupported primitives when loading dictionary.
 */
-    ID_RESERVED03,
+    ID_INCLUDE_CLIB,
     ID_RESERVED04,
     ID_RESERVED05,
     ID_RESERVED06,
@@ -605,4 +605,4 @@ extern cell_t         gIncludeIndex;
 
 #define DBUG_NUM_D(msg,num) { pfDebugMessage(msg); pfDebugPrintDecimalNumber((cell_t) num); pfDebugMessage("\n"); }
 
-#endif  /* _pf_guts_h */
+#endif  /* _ex_guts.h */

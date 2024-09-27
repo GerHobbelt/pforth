@@ -1,4 +1,4 @@
-/* @(#) pfcompil.c 98/01/26 1.5 */
+/* @(#) excompil.c 98/01/26 1.5 */
 /***************************************************************
 ** Compiler for PForth based on 'C'
 **
@@ -25,7 +25,7 @@
 ***************************************************************/
 
 #include "pf_all.h"
-#include "pfcompil.h"
+#include "excompil.h"
 
 #define ABORT_RETURN_CODE   (10)
 #define UINT32_MASK  ((sizeof(ucell_t)-1))
@@ -384,6 +384,8 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC( ID_WORD_STORE, "W!", 0 );
     CreateDicEntryC( ID_XOR, "XOR", 0 );
     CreateDicEntryC( ID_ZERO_BRANCH, "0BRANCH", 0 );
+
+    CreateDicEntryC( ID_INCLUDE_CLIB, "INCLUDE-CLIB", 0 );
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
     if( FindSpecialXTs() < 0 ) goto error;
