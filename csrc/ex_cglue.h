@@ -1,4 +1,4 @@
-/* @(#) pf_cglue.h 96/12/18 1.7 */
+/* @(#) ex_cglue.h 96/12/18 1.7 */
 #ifndef _pf_c_glue_h
 #define _pf_c_glue_h
 

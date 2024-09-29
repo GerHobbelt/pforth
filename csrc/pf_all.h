@@ -58,7 +58,7 @@
 #include "pf_words.h"
 #include "pf_save.h"
 #include "pf_mem.h"
-#include "pf_cglue.h"
+#include "ex_cglue.h"
 #include "pf_core.h"
 
 #ifdef PF_USER_INC2

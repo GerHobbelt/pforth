@@ -1875,8 +1875,9 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             Scratch = M_POP; /* addr */
             LibName = toCstr((char*)Scratch, TOS);
             M_DROP;
-            printf("|%s|", LibName);
+            addLib(LibName);
             free(LibName);
+
             endcase;
 
         default:

@@ -1,4 +1,4 @@
-/* @(#) pfcustom.c 98/01/26 1.3 */
+/* @(#) excustom.c 98/01/26 1.3 */
 
 #ifndef PF_USER_CUSTOM
 
@@ -9,7 +9,7 @@
 ** by setting -DPF_USER_CUSTOM="mycustom.c"
 **
 ** Using this, you could, for example, call X11 from Forth.
-** See "pf_cglue.c" for more information.
+** See "ex_cglue.c" for more information.
 **
 ** Author: Phil Burk
 ** Copyright 1994 3DO, Phil Burk, Larry Polansky, David Rosenboom
@@ -55,7 +55,12 @@ static void CTest1( cell_t Val1, cell_t Val2 )
 ** Step 2: Create CustomFunctionTable.
 **     Do not change the name of CustomFunctionTable!
 **     It is used by the pForth kernel.
+**     Do not change the name of CustomFunctionLen!
+**     It is used in including C libraries
+**     So also make sure that it has the correct number
 ****************************************************************/
+#define CUSTOM_FUNCTION_LEN 2
+size_t CustomFunctionLen = CUSTOM_FUNCTION_LEN;
 
 #ifdef PF_NO_GLOBAL_INIT
 /******************
@@ -65,8 +70,7 @@ static void CTest1( cell_t Val1, cell_t Val2 )
 ** Do not change the name of LoadCustomFunctionTable()!
 ** It is called by the pForth kernel.
 */
-#define NUM_CUSTOM_FUNCTIONS  (2)
-CFunc0 CustomFunctionTable[NUM_CUSTOM_FUNCTIONS];
+CFunc0 CustomFunctionTable[CUSTOM_FUNCTION_LEN];
 
 Err LoadCustomFunctionTable( void )
 {
@@ -80,10 +84,10 @@ Err LoadCustomFunctionTable( void )
 ** If your loader supports global initialization (most do.) then just
 ** create the table like this.
 */
-CFunc0 CustomFunctionTable[] =
+CFunc0 CustomFunctionTable[CUSTOM_FUNCTION_LEN] =
 {
     (CFunc0) CTest0,
-    (CFunc0) CTest1
+    (CFunc0) CTest1,
 };
 #endif
 

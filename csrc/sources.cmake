@@ -1,6 +1,6 @@
 sources.cmake
 pf_all.h
-pf_cglue.h
+ex_cglue.h
 pf_clib.h
 pf_core.h
 pf_float.h
@@ -19,7 +19,7 @@ excompil.h
 pfinnrfp.h
 pforth.h
 ex_c_stuff.h
-pf_cglue.c
+ex_cglue.c
 pf_clib.c
 pf_core.c
 ex_inner.c
@@ -30,5 +30,5 @@ pf_save.c
 pf_text.c
 pf_words.c
 excompil.c
-pfcustom.c
+excustom.c
 ex_c_stuff.c

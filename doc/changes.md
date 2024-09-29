@@ -13,6 +13,13 @@ Changes in '#include's due to file name changes are not included.
 ## csrc/ex_inner.c
 - added case for token 'INCLUDE-CLIB'
 
+## csrc/excustom.c
+- make CustonFunctionLen mandatory
+
+## csrc/ex_cglue.c
+- use ExtendedFunctionTable instead of CustomFunctionTable
+
 ## csrc/ex_c_stuff.c
 - here I store my stuff
 - convertor to C-strings
+- lib inclusion

@@ -1,4 +1,4 @@
-/* @(#) pf_cglue.c 98/02/11 1.4 */
+/* @(#) ex_cglue.c 98/02/11 1.4 */
 /***************************************************************
 ** 'C' Glue support for Forth based on 'C'
 **
@@ -21,7 +21,7 @@
 
 #include "pf_all.h"
 
-extern CFunc0 CustomFunctionTable[];
+extern CFunc0* ExtendedFunctionTable;
 
 /***************************************************************/
 cell_t CallUserFunction( cell_t Index, int32_t ReturnMode, int32_t NumParams )
@@ -33,7 +33,7 @@ cell_t CallUserFunction( cell_t Index, int32_t ReturnMode, int32_t NumParams )
 DBUG(("CallUserFunction: Index = %d, ReturnMode = %d, NumParams = %d\n",
     Index, ReturnMode, NumParams ));
 
-    CF = CustomFunctionTable[Index];
+    CF = ExtendedFunctionTable[Index];
 
     switch( NumParams )
     {
