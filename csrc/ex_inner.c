@@ -31,6 +31,8 @@
 
 #include "pf_all.h"
 
+#include "ex_c_stuff.h"
+
 #if defined(WIN32) && !defined(__MINGW32__)
 #include <crtdbg.h>
 #endif
@@ -284,6 +286,7 @@ ThrowCode pfCatch( ExecToken XT )
     register cell_t *InsPtr = NULL;
     register cell_t  Token;
     cell_t           Scratch;
+    char*            LibName;
 
 #ifdef PF_SUPPORT_FP
     PF_FLOAT       fpTopOfStack;
@@ -1867,11 +1870,14 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
-         case ID_INCLUDE_CLIB:
-            PUSH_TOS;
-            TOS = 37;
+        case ID_INCLUDE_CLIB:
+            #include <stdio.h>
+            Scratch = M_POP; /* addr */
+            LibName = toCstr((char*)Scratch, TOS);
+            M_DROP;
+            printf("|%s|", LibName);
+            free(LibName);
             endcase;
-            
 
         default:
             ERR("pfCatch: Unrecognised token = 0x");

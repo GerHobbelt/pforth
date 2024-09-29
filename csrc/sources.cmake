@@ -18,6 +18,7 @@ pfcompfp.h
 excompil.h
 pfinnrfp.h
 pforth.h
+ex_c_stuff.h
 pf_cglue.c
 pf_clib.c
 pf_core.c
@@ -30,4 +31,4 @@ pf_text.c
 pf_words.c
 excompil.c
 pfcustom.c
-
+ex_c_stuff.c
