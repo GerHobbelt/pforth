@@ -6,6 +6,6 @@
 char* toCstr(char* ptr, cell_t len);
 void initExFT(void);
 void addLib(char* libName);
-void hello_world(void);
+void addFunction(void* fn, char* name, int argsNum, int returns);
 
 #endif

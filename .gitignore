@@ -1,6 +1,7 @@
 **/*.eo
 **/*.o
 **/*.a
+**/*.so
 **/pfdicdat.h
 **/pforth
 **/pforth.dic
