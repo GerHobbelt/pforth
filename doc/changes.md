@@ -6,12 +6,15 @@ Changes in '#include's due to file name changes are not included.
 
 ## csrc/ex_guts.h
 - replace one reserved ID with 'ID_INCLUDE_CLIB'
+- replace one reserved ID with 'ID_OS_ID'
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
+- added 'OS-ID' word
 
 ## csrc/ex_inner.c
-- added case for token 'INCLUDE-CLIB'
+- added case for token 'ID_INCLUDE_CLIB'
+- added case for token 'ID_OS_ID'
 
 ## csrc/excustom.c
 - made CustonFunctionLen mandatory
@@ -27,3 +30,9 @@ Changes in '#include's due to file name changes are not included.
 - my own to Cstr
 - here I store my stuff
 - lib inclusion
+
+## fth/ex_os.fth
+- all the OS wrds
+
+## fth/loadex4th.fth
+- added ex_os.fth

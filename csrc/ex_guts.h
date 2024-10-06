@@ -298,7 +298,7 @@ enum cforth_primitive_ids
 ** unsupported primitives when loading dictionary.
 */
     ID_INCLUDE_CLIB,
-    ID_RESERVED04,
+    ID_OS_ID,
     ID_RESERVED05,
     ID_RESERVED06,
     ID_RESERVED07,

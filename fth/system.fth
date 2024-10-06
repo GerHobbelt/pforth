@@ -841,7 +841,7 @@ trace-include on
 \ Turn this OFF if you do not want to see the contents of the stack after each entry.
 trace-stack off
 
-include loadp4th.fth
+include loadex4th.fth
 
 decimal
 

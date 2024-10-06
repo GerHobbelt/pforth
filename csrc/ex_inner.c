@@ -1876,6 +1876,27 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
 
             endcase;
 
+        case ID_OS_ID:
+            M_DUP;
+#if defined(__WIN32) || defined(_WIN64)
+            TOS = 0;
+#elif defined(__linux__) || defined(linux)
+            TOS = 1;
+#elif defined(__APPLE__) || defined(__MACH__)
+            TOS = 2;
+#elif defined(__FreeBSD__)
+            TOS = 3;
+#elif defined(__NetBSD__)
+            TOS = 4;
+#elif defined(__OpenBSD__)
+            TOS = 5;
+#elif defined(__unix__) || defined(__unix)
+            TOS = 10;
+#else
+            TOS = 20;
+#endif
+            endcase;
+
         default:
             ERR("pfCatch: Unrecognised token = 0x");
             ffDotHex(Token);

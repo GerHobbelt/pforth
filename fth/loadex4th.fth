@@ -50,4 +50,6 @@ include? trace   trace.fth
 include? ESC[    termio.fth
 include? HISTORY history.fth
 
+include? windows? ex_os.fth
+
 map
