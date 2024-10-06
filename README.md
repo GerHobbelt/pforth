@@ -8,6 +8,10 @@ with the added ability to have C bindings.
 
 ### todo
 - make including libs work
-- add some error handeling and sanity checks (what should they to)
+    - current file tracking
+- OS differencing words
+- shell exec WORD
+- DOCS
+- add some error handling and sanity checks (what should they do?)
 - add Gforth-like binding gen syntax
 - maybe add more Gforth words? (struct words, debug words...)

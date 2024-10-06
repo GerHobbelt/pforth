@@ -28,6 +28,16 @@ typedef cell_t (*CFunc2)( cell_t P1, cell_t P2 );
 typedef cell_t (*CFunc3)( cell_t P1, cell_t P2, cell_t P3 );
 typedef cell_t (*CFunc4)( cell_t P1, cell_t P2, cell_t P3, cell_t P4 );
 typedef cell_t (*CFunc5)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5 );
+typedef cell_t (*CFunc6)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6 );
+typedef cell_t (*CFunc7)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7 );
+typedef cell_t (*CFunc8)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8 );
+typedef cell_t (*CFunc9)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9 );
+typedef cell_t (*CFunc10)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9, cell_t P10 );
+typedef cell_t (*CFunc11)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9, cell_t P10, cell_t P11 );
+typedef cell_t (*CFunc12)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9, cell_t P10, cell_t P11, cell_t P12 );
+typedef cell_t (*CFunc13)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9, cell_t P10, cell_t P11, cell_t P12, cell_t P13 );
+typedef cell_t (*CFunc14)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9, cell_t P10, cell_t P11, cell_t P12, cell_t P13, cell_t P14 );
+typedef cell_t (*CFunc15)( cell_t P1, cell_t P2, cell_t P3, cell_t P4, cell_t P5, cell_t P6, cell_t P7, cell_t P8, cell_t P9, cell_t P10, cell_t P11, cell_t P12, cell_t P13, cell_t P14, cell_t P15 );
 
 #ifdef __cplusplus
 extern "C" {

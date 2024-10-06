@@ -14,10 +14,14 @@ Changes in '#include's due to file name changes are not included.
 - added case for token 'INCLUDE-CLIB'
 
 ## csrc/excustom.c
-- make CustonFunctionLen mandatory
+- made CustonFunctionLen mandatory
+
+## csrc/ex_cglue.c
+- adde CFunc6 - CFunc15
 
 ## csrc/ex_cglue.c
 - use ExtendedFunctionTable instead of CustomFunctionTable
+- applied the extended CFuncs
 
 ## csrc/ex_c_stuff.c
 - here I store my stuff
