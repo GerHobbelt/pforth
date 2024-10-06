@@ -24,6 +24,6 @@ Changes in '#include's due to file name changes are not included.
 - applied the extended CFuncs
 
 ## csrc/ex_c_stuff.c
+- my own to Cstr
 - here I store my stuff
-- convertor to C-strings
 - lib inclusion

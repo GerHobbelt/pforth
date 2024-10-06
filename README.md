@@ -9,6 +9,7 @@ with the added ability to have C bindings.
 ### todo
 - make including libs work
     - current file tracking
+    - Windows support
 - OS differencing words
 - shell exec WORD
 - DOCS

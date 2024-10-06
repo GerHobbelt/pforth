@@ -13,32 +13,55 @@ size_t ExFTLen = -1;
 // I need resizable pointer
 CFunc0* ExtendedFunctionTable = CustomFunctionTable;
 
-// currently allocates new string, copies FORTH string and adds \0
-// maybe use the scratch buffer at some point?
-char* toCstr(char* str, cell_t len) {
-   // TODO: check for alloc fail
-   char* newStr = malloc((len+1) * sizeof(char));
-   memcpy(newStr, str, len);
-   newStr[len] = '\0';
-   return newStr;
+char* interpretStringToC(char* dst, const char* src, cell_t dstSize) {
+
+    cell_t len;
+
+    len = (cell_t) *src +1;
+    /* Make sure the text + NUL can fit. */
+    if( len >= dstSize )
+    {
+        len = dstSize;
+    }
+
+   pfCopyMemory(dst, src, len);
+   dst[len] = '\0';
+
+   return dst;
 }
 
 // coppies CustomFunctionTable to a new dynamic ExtendedFunctionTable
 void initExFT(void) {
    ExFTLen = CustomFunctionLen;
 
-   // TODO: check for alloc fail
    ExtendedFunctionTable = malloc(ExFTLen * sizeof(CFunc0));
+   if (ExtendedFunctionTable == NULL) {
+      pfReportError("INCLUDE-CLIB", PF_ERR_NO_MEM);
+      EXIT(1);
+   }
    memcpy(ExtendedFunctionTable, CustomFunctionTable, ExFTLen * CFUNC0_BYTES);
 }
 
 // adds a function from a ptr
 void addFunction(void* fn, char* name, int argsNum, int returns) {
-   // TODO: check for wrong num fail
+   // check
+   if (argsNum < 0 || argsNum > MAX_CFUNC_ARGS) {
+      MSG("Too many args for ");
+      MSG(name);
+      EMIT_CR;
+      MSG_NUM_D("Maximum allowed args is ", MAX_CFUNC_ARGS);
+      EMIT_CR;
+      EXIT(1);
+   }
+
    // resize
    ExFTLen++;
-   // TODO: check for alloc fail
+
    ExtendedFunctionTable = realloc(ExtendedFunctionTable, ExFTLen*CFUNC0_BYTES);
+   if (ExtendedFunctionTable == NULL) {
+      pfReportError("INCLUDE-CLIB", PF_ERR_NO_MEM);
+      EXIT(1);
+   }
 
    // add
    ExtendedFunctionTable[ExFTLen-1] = (CFunc0) fn;
@@ -54,9 +77,19 @@ void addLib(char* libName) {
    }
 
    // TODO: make is somehow depend on current file interpreted
-   // TODO: add some error handling
    // TODO: add Windows support
    void* handle = dlopen(libName, RTLD_LAZY);
+   if (handle == NULL) {
+      pfReportError("INCLUDE-CLIB", PF_ERR_OPEN_FILE);
+      EXIT(1);
+   }
    addWords_t addWords = (addWords_t) dlsym(handle, "addWords");
+   if (addWords == NULL) {
+      MSG(libName);
+      MSG(" does not have function: void addWords(void* fn)");
+      EMIT_CR;
+      EXIT(1);
+   }
+
    addWords((void*) &addFunction);
 }

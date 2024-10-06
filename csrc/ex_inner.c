@@ -286,7 +286,6 @@ ThrowCode pfCatch( ExecToken XT )
     register cell_t *InsPtr = NULL;
     register cell_t  Token;
     cell_t           Scratch;
-    char*            LibName;
 
 #ifdef PF_SUPPORT_FP
     PF_FLOAT       fpTopOfStack;
@@ -1871,12 +1870,9 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
         case ID_INCLUDE_CLIB:
-            #include <stdio.h>
-            Scratch = M_POP; /* addr */
-            LibName = toCstr((char*)Scratch, TOS);
+            interpretStringToC(gScratch, (char*)M_POP, TOS);
             M_DROP;
-            addLib(LibName);
-            free(LibName);
+            addLib(gScratch);
 
             endcase;
 

@@ -22,6 +22,8 @@
 **
 ***************************************************************/
 
+#define MAX_CFUNC_ARGS 15
+
 typedef cell_t (*CFunc0)( void );
 typedef cell_t (*CFunc1)( cell_t P1 );
 typedef cell_t (*CFunc2)( cell_t P1, cell_t P2 );

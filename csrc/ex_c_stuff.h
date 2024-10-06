@@ -3,7 +3,7 @@
 
 #include "pf_all.h"
 
-char* toCstr(char* ptr, cell_t len);
+char* interpretStringToC(char* dst, const char* src, cell_t dstSize);
 void initExFT(void);
 void addLib(char* libName);
 void addFunction(void* fn, char* name, int argsNum, int returns);
