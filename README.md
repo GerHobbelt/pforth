@@ -10,9 +10,6 @@ with the added ability to have C bindings.
 - make including libs work
     - current file tracking
     - Windows support
-- OS differencing words
-- shell exec WORD
 - DOCS
-- add some error handling and sanity checks (what should they do?)
 - add Gforth-like binding gen syntax
 - maybe add more Gforth words? (struct words, debug words...)

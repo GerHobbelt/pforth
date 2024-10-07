@@ -387,6 +387,7 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
 
     CreateDicEntryC( ID_INCLUDE_CLIB, "INCLUDE-CLIB", 0 );
     CreateDicEntryC( ID_OS_ID, "OS-ID", 0 );
+    CreateDicEntryC( ID_EXEC_SHELL, "EXEC-SHELL", 0 );
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
     if( FindSpecialXTs() < 0 ) goto error;

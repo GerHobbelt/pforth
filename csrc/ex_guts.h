@@ -299,7 +299,7 @@ enum cforth_primitive_ids
 */
     ID_INCLUDE_CLIB,
     ID_OS_ID,
-    ID_RESERVED05,
+    ID_EXEC_SHELL,
     ID_RESERVED06,
     ID_RESERVED07,
     ID_RESERVED08,

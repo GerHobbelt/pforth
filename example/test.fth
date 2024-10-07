@@ -1,5 +1,9 @@
 s" ./example/libtestlib.so" include-clib
 
+include example/test2.fth
+
+hi!
+
 hello-world
 
 30 7+ . cr
@@ -9,3 +13,11 @@ hello-world
 OS-ID . cr
 
 unix? . cr
+
+cr cr
+
+s" ls -a"
+2dup type cr
+exec-shell
+
+." status: " . cr

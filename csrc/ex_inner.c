@@ -1869,14 +1869,14 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
-        case ID_INCLUDE_CLIB:
+        case ID_INCLUDE_CLIB: // ( a u -- )
             interpretStringToC(gScratch, (char*)M_POP, TOS);
             M_DROP;
             addLib(gScratch);
 
             endcase;
 
-        case ID_OS_ID:
+        case ID_OS_ID: // ( -- n )
             M_DUP;
 #if defined(__WIN32) || defined(_WIN64)
             TOS = 0;
@@ -1895,6 +1895,10 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
 #else
             TOS = 20;
 #endif
+            endcase;
+
+        case ID_EXEC_SHELL: // ( a u -- n )
+            TOS = system(interpretStringToC(gScratch, (char*)M_POP, TOS));
             endcase;
 
         default:
