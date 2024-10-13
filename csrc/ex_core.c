@@ -558,6 +558,11 @@ ThrowCode pfDoForth( const char *DicFileName, const char *SourceName, cell_t IfI
                     MSG("\n");
                 }
                 Result = pfIncludeFile( SourceName );
+
+                // return to the REPL
+                if (Result == 0 && !IfInit) {
+                  Result = pfQuit();
+                }
             }
         }
 #endif /* PF_NO_SHELL */

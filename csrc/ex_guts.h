@@ -297,10 +297,10 @@ enum cforth_primitive_ids
 /* Only reserve space if we are adding FP so that we can detect
 ** unsupported primitives when loading dictionary.
 */
-    ID_INCLUDE_CLIB,
-    ID_OS_ID,
-    ID_EXEC_SHELL,
-    ID_SOURCEFILENAME,
+    ID_RESERVED03,
+    ID_RESERVED04,
+    ID_RESERVED05,
+    ID_RESERVED06,
     ID_RESERVED07,
     ID_RESERVED08,
     ID_RESERVED09,
@@ -352,6 +352,12 @@ enum cforth_primitive_ids
     ID_FP_FTAN,
     ID_FP_FTANH,
     ID_FP_FPICK,
+
+    ID_INCLUDE_CLIB,
+    ID_OS_ID,
+    ID_SYSTEM_INNER,
+    ID_SH_GET_INNER,
+    ID_SOURCEFILENAME,
 #endif
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */

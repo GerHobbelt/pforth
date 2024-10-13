@@ -24,6 +24,20 @@ cr cr
 
 s" ls -a"
 2dup type cr
-exec-shell
+system
 
-." status: " . cr
+." status: " $? . cr
+
+.s
+
+s\" ls -a /tmp" \ ls in uninteractive mode puts one entry per line
+2dup type cr
+
+sh-get
+type cr
+
+sh$ 2@ type cr
+
+." status: " $? . cr
+
+bye

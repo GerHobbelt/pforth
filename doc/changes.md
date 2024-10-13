@@ -5,22 +5,23 @@ Header files are renamed to match their files.
 Changes in '#include's due to file name changes are not included.
 
 ## csrc/ex_guts.h
-- replace one reserved ID with 'ID_INCLUDE_CLIB'
-- replace one reserved ID with 'ID_OS_ID'
-- replace one reserved ID with 'ID_EXEC_SHELL'
-- replace one reserved ID with 'SOURCEFILENAME'
+- added 'ID_OS_ID'
+- added 'ID_INCLUDE_CLIB'
+- added 'ID_SYSTEM_INNER'
+- added 'SOURCEFILENAME'
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
 - added 'OS-ID' word
-- added 'EXEC-SHELL' word
+- added 'SYSTEM-INNER' word
 - added 'SOURCEFILENAME' word
 - made ffIncludeFile work with ex_include_dirs.c
+- made it so that on error is thrown on BYE
 
 ## csrc/ex_inner.c
 - added case for token 'ID_INCLUDE_CLIB'
 - added case for token 'ID_OS_ID'
-- added case for token 'ID_EXEC_SHELL'
+- added case for token 'ID_SYSTEM_INNER'
 - replaced FileStream with OpenedFile
 - added case for token 'SOURCEFILENAME'
 
@@ -50,8 +51,15 @@ Changes in '#include's due to file name changes are not included.
 ## csrc/ex_save.c
 - modified to work with OpenedFile
 
+## fth/loadex4th.fth
+- added ex_os.fth
+- added ex_shell.fth
+
 ## fth/ex_os.fth
 - all the OS words
 
-## fth/loadex4th.fth
-- added ex_os.fth
+## fth/ex_shell.fth
+- all the shell execution words
+
+## fth/mkdicdat.fth
+- added bye, so it doesn't exit to REPL mid compiling

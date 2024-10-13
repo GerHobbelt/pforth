@@ -387,7 +387,8 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
 
     CreateDicEntryC( ID_INCLUDE_CLIB, "INCLUDE-CLIB", 0 );
     CreateDicEntryC( ID_OS_ID, "OS-ID", 0 );
-    CreateDicEntryC( ID_EXEC_SHELL, "EXEC-SHELL", 0 );
+    CreateDicEntryC( ID_SYSTEM_INNER, "SYSTEM-INNER", 0 );
+    CreateDicEntryC( ID_SH_GET_INNER, "SH-GET-INNER", 0 );
     CreateDicEntryC( ID_SOURCEFILENAME, "SOURCEFILENAME", 0 );
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
@@ -967,7 +968,7 @@ ThrowCode ffIncludeFile( OpenedFile *InputFile )
 
 /* Run outer interpreter for stream. */
     exception = ffOuterInterpreterLoop();
-    if( exception )
+    if( exception && exception != THROW_BYE)
     {
         int i;
 /* Report line number and nesting level. */

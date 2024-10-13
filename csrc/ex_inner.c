@@ -308,6 +308,8 @@ ThrowCode pfCatch( ExecToken XT )
     uint8_t       *CodeBase = (uint8_t *) CODE_BASE;
     ThrowCode      ExceptionReturnCode = 0;
 
+    char*          shellBuffer = NULL;
+
 /* FIXME
     gExecutionDepth += 1;
     PRT(("pfCatch( 0x%x ), depth = %d\n", XT, gExecutionDepth ));
@@ -1897,8 +1899,53 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
 #endif
             endcase;
 
-        case ID_EXEC_SHELL: // ( a u -- n )
+        case ID_SYSTEM_INNER: // ( a u -- n )
             TOS = system(interpretStringToC(gScratch, (char*)M_POP, TOS));
+            endcase;
+
+        case ID_SH_GET_INNER: // ( a u -- a u n )
+                              // valid only until next call
+            {
+               cell_t size = 0;
+               int maxSize = 128;
+               int len;
+               // free last output
+               if (shellBuffer != gScratch) free(shellBuffer);
+
+               // open command as a FILE
+               FILE* in = popen(interpretStringToC(gScratch, (char*)M_POP, TOS),
+                                "r");
+
+               // if failed
+               if (in == NULL) {
+                  shellBuffer = gScratch;
+
+               // if everything worked
+               } else {
+                  // allocate
+                  shellBuffer = malloc(maxSize * sizeof(char));
+
+                  // slowly read and resize
+                  while(fgets(gScratch, 129, in) != NULL) {
+
+                     len = strlen(gScratch);
+                     if (size + len >= maxSize) {
+                        maxSize += 128;
+                        shellBuffer = realloc(shellBuffer, maxSize);
+                     }
+
+                     memcpy(shellBuffer+(size*sizeof(char)), gScratch, len);
+
+                     size += len;
+                  }
+               }
+
+               // write on the stack
+               M_PUSH(shellBuffer);
+               TOS = size;
+               PUSH_TOS;
+               TOS = pclose(in);
+            }
             endcase;
 
         case ID_SOURCEFILENAME: // ( -- c-addr u )
