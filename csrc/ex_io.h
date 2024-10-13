@@ -1,6 +1,6 @@
-/* @(#) pf_io.h 98/01/26 1.2 */
-#ifndef _pf_io_h
-#define _pf_io_h
+/* @(#) ex_io.h 98/01/26 1.2 */
+#ifndef _ex_io_h
+#define _ex_io_h
 
 /***************************************************************
 ** Include file for PForth IO
@@ -80,8 +80,19 @@ void ioTerm( void );
 #define PF_FAM_BIN_OPEN_RW    ("rb+")
 
 #ifdef PF_NO_FILEIO
-
     typedef void FileStream;
+#else
+    typedef FILE FileStream;
+#endif
+
+typedef struct OpenedFile {
+   FileStream* fs;
+   char name[256];
+} OpenedFile;
+
+OpenedFile *sdOpenFile( const char *FileName, const char *Mode );
+cell_t sdCloseFile( OpenedFile * Stream );
+#ifdef PF_NO_FILEIO
 
     extern FileStream *PF_STDIN;
     extern FileStream *PF_STDOUT;
@@ -91,7 +102,7 @@ void ioTerm( void );
     #endif
 
     /* Prototypes for stubs. */
-    FileStream *sdOpenFile( const char *FileName, const char *Mode );
+    /* FileStream *sdOpenFile( const char *FileName, const char *Mode ); */
     cell_t sdFlushFile( FileStream * Stream  );
     cell_t sdReadFile( void *ptr, cell_t Size, int32_t nItems, FileStream * Stream  );
     cell_t sdWriteFile( void *ptr, cell_t Size, int32_t nItems, FileStream * Stream  );
@@ -100,7 +111,7 @@ void ioTerm( void );
     cell_t sdDeleteFile( const char *FileName );
     ThrowCode sdResizeFile( FileStream *, uint64_t Size);
     file_offset_t sdTellFile( FileStream * Stream );
-    cell_t sdCloseFile( FileStream * Stream );
+    /* cell_t sdCloseFile( FileStream * Stream ); */
     cell_t sdInputChar( FileStream *stream );
 
     #ifdef __cplusplus
@@ -125,9 +136,8 @@ void ioTerm( void );
         #include PF_USER_FILEIO
 
     #else
-        typedef FILE FileStream;
 
-        #define sdOpenFile      fopen
+        /* #define sdOpenFile      fopen */
         #define sdDeleteFile    remove
         #define sdFlushFile     fflush
         #define sdReadFile      fread
@@ -144,7 +154,7 @@ void ioTerm( void );
         #define sdSeekFile      fseek
         #define sdTellFile      ftell
 
-        #define sdCloseFile     fclose
+        /* #define sdCloseFile     fclose */
         #define sdRenameFile    rename
         #define sdInputChar     fgetc
 
@@ -181,4 +191,4 @@ void ioType( const char *s, cell_t n);
 }
 #endif
 
-#endif /* _pf_io_h */
+#endif /* _ex_io_h */

@@ -1,4 +1,4 @@
-/* @(#) pf_core.c 98/01/28 1.5 */
+/* @(#) ex_core.c 98/01/28 1.5 */
 /***************************************************************
 ** Forth based on 'C'
 **
@@ -360,7 +360,7 @@ ThrowCode pfQuit( void )
 
 cell_t pfIncludeFile( const char *FileName )
 {
-    FileStream *fid;
+    OpenedFile *fid;
     cell_t Result;
     char  buffer[32];
     cell_t numChars, len;

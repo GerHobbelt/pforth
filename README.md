@@ -8,8 +8,8 @@ with the added ability to have C bindings.
 
 ### todo
 - make including libs work
-    - current file tracking
     - Windows support
+- remake shell exec to match that of Gforth
 - DOCS
 - add Gforth-like binding gen syntax
 - maybe add more Gforth words? (struct words, debug words...)

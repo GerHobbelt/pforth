@@ -1,4 +1,4 @@
-/* @(#) pf_save.c 98/01/26 1.3 */
+/* @(#) ex_save.c 98/01/26 1.3 */
 /***************************************************************
 ** Save and Load Dictionary
 ** for PForth based on 'C'
@@ -382,6 +382,7 @@ convertDictionaryInfoRead (DictionaryInfoChunk *sd)
 */
 cell_t ffSaveForth( const char *FileName, ExecToken EntryPoint, cell_t NameSize, cell_t CodeSize)
 {
+    OpenedFile* opn;
     FileStream *fid;
     DictionaryInfoChunk SD;
     uint32_t FormSize;
@@ -389,7 +390,8 @@ cell_t ffSaveForth( const char *FileName, ExecToken EntryPoint, cell_t NameSize,
     uint32_t CodeChunkSize;
     uint32_t relativeCodePtr;
 
-    fid = sdOpenFile( FileName, "wb" );
+    opn = sdOpenFile( FileName, "wb" );
+    fid = opn->fs;
     if( fid == NULL )
     {
         pfReportError("pfSaveDictionary", PF_ERR_OPEN_FILE);
@@ -495,7 +497,7 @@ cell_t ffSaveForth( const char *FileName, ExecToken EntryPoint, cell_t NameSize,
     sdSeekFile( fid, 4, PF_SEEK_SET );
     if( Write32ToFile( fid, FormSize ) < 0 ) goto error;
 
-    sdCloseFile( fid );
+    sdCloseFile( opn );
 
 /* Restore initialization. */
     pfExecIfDefined("AUTO.INIT");
@@ -504,7 +506,7 @@ cell_t ffSaveForth( const char *FileName, ExecToken EntryPoint, cell_t NameSize,
 error:
     sdSeekFile( fid, 0, PF_SEEK_SET );
     Write32ToFile( fid, ID_BADF ); /* Mark file as bad. */
-    sdCloseFile( fid );
+    sdCloseFile( opn );
 
 /* Restore initialization. */
     pfExecIfDefined("AUTO.INIT");
@@ -532,6 +534,7 @@ static int32_t Read32FromFile( FileStream *fid, uint32_t *ValPtr )
 PForthDictionary pfLoadDictionary( const char *FileName, ExecToken *EntryPointPtr )
 {
     pfDictionary_t *dic = NULL;
+    OpenedFile* opn;
     FileStream *fid;
     DictionaryInfoChunk *sd;
     uint32_t ChunkID;
@@ -544,7 +547,8 @@ PForthDictionary pfLoadDictionary( const char *FileName, ExecToken *EntryPointPt
 DBUG(("pfLoadDictionary( %s )\n", FileName ));
 
 /* Open file. */
-    fid = sdOpenFile( FileName, "rb" );
+    opn = sdOpenFile( FileName, "rb" );
+    fid = opn->fs;
     if( fid == NULL )
     {
         pfReportError("pfLoadDictionary", PF_ERR_OPEN_FILE);
@@ -723,7 +727,7 @@ DBUG(("pfLoadDictionary( %s )\n", FileName ));
         }
     }
 
-    sdCloseFile( fid );
+    sdCloseFile( opn );
 
     if( NAME_BASE != 0)
     {
@@ -741,13 +745,13 @@ DBUG(("pfLoadDictionary: return %p\n", dic));
 
 nomem_error:
     pfReportError("pfLoadDictionary", PF_ERR_NO_MEM);
-    sdCloseFile( fid );
+    sdCloseFile( opn );
     return NULL;
 
 read_error:
     pfReportError("pfLoadDictionary", PF_ERR_READ_FILE);
 error:
-    sdCloseFile( fid );
+    sdCloseFile( opn );
 xt_error:
     MSG("Error loading dictionary from: ");
     MSG(FileName);

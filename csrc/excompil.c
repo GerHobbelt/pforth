@@ -388,6 +388,7 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC( ID_INCLUDE_CLIB, "INCLUDE-CLIB", 0 );
     CreateDicEntryC( ID_OS_ID, "OS-ID", 0 );
     CreateDicEntryC( ID_EXEC_SHELL, "EXEC-SHELL", 0 );
+    CreateDicEntryC( ID_SOURCEFILENAME, "SOURCEFILENAME", 0 );
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
     if( FindSpecialXTs() < 0 ) goto error;
@@ -916,7 +917,9 @@ void pfHandleIncludeError( void )
     while( (cur = ffPopInputStream()) != PF_STDIN)
     {
         DBUG(("ffCleanIncludeStack: closing 0x%x\n", cur ));
-        sdCloseFile(cur);
+        /* sdCloseFile(cur); */
+        // should be enough
+        fclose(cur);
     }
 }
 
@@ -945,12 +948,21 @@ ThrowCode ffOuterInterpreterLoop( void )
 ** Include then close a file
 ***************************************************************/
 
-ThrowCode ffIncludeFile( FileStream *InputFile )
+ThrowCode ffIncludeFile( OpenedFile *InputFile )
 {
     ThrowCode exception;
+    char buff[256];
+
+    // set filename stuff
+    getPath(InputFile->name, buff);
+
+    char* prevName = getCurrentFilename();
+    setCurrentFilename(buff);
+
+    addDir(InputFile);
 
 /* Push file stream. */
-    exception = ffPushInputStream( InputFile );
+    exception = ffPushInputStream( InputFile->fs );
     if( exception < 0 ) return exception;
 
 /* Run outer interpreter for stream. */
@@ -980,6 +992,10 @@ ThrowCode ffIncludeFile( FileStream *InputFile )
 
 /* ANSI spec specifies that this should also close the file. */
     sdCloseFile(InputFile);
+
+    // return prev filename
+    dropDir();
+    setCurrentFilename(prevName);
 
     return exception;
 }

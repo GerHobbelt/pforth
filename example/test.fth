@@ -1,10 +1,16 @@
 s" ./example/libtestlib.so" include-clib
 
-include example/test2.fth
+sourcefilename type cr
 
-hi!
+include test2.fth
 
 hello-world
+cr
+hi!
+cus!
+zdrasti!
+
+cr
 
 30 7+ . cr
 

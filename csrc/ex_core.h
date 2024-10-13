@@ -1,6 +1,6 @@
-/* @(#) pf_core.h 98/01/26 1.3 */
-#ifndef _pf_core_h
-#define _pf_core_h
+/* @(#) ex_core.h 98/01/26 1.3 */
+#ifndef _ex_core_h
+#define _ex_core_h
 
 /***************************************************************
 ** Include file for PForth 'C' Glue support
@@ -38,4 +38,4 @@ cell_t pfUnitTestText( void );
 #endif
 
 
-#endif /* _pf_core_h */
+#endif /* _ex_core_h */

@@ -64,7 +64,7 @@ ThrowCode ffSemiColon( void );
 ThrowCode ffOK( void );
 ThrowCode ffInterpret( void );
 ThrowCode ffOuterInterpreterLoop( void );
-ThrowCode ffIncludeFile( FileStream *InputFile );
+ThrowCode ffIncludeFile( OpenedFile *InputFile );
 
 #ifdef PF_SUPPORT_FP
 void ffFPLiteral( PF_FLOAT fnum );

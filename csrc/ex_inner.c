@@ -304,7 +304,7 @@ ThrowCode pfCatch( ExecToken XT )
     cell_t         FakeSecondary[2];
     char          *CharPtr;
     cell_t        *CellPtr;
-    FileStream    *FileID;
+    OpenedFile    *FileID;
     uint8_t       *CodeBase = (uint8_t *) CODE_BASE;
     ThrowCode      ExceptionReturnCode = 0;
 
@@ -1031,14 +1031,14 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             endcase;
 
         case ID_FILE_CLOSE: /* ( fid -- ior ) */
-            TOS = sdCloseFile( (FileStream *) TOS );
+            TOS = sdCloseFile( (OpenedFile *) TOS );
             endcase;
 
         case ID_FILE_READ: /* ( addr len fid -- u2 ior ) */
-            FileID = (FileStream *) TOS;
+            FileID = (OpenedFile *) TOS;
             Scratch = M_POP;
             CharPtr = (char *) M_POP;
-            Temp = sdReadFile( CharPtr, 1, Scratch, FileID );
+            Temp = sdReadFile( CharPtr, 1, Scratch, FileID->fs );
             /* TODO check feof() or ferror() */
             M_PUSH(Temp);
             TOS = 0;
@@ -1047,16 +1047,16 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
         /* TODO Why does this crash when passed an illegal FID? */
         case ID_FILE_SIZE: /* ( fid -- ud ior ) */
 /* Determine file size by seeking to end and returning position. */
-            FileID = (FileStream *) TOS;
+            FileID = (OpenedFile *) TOS;
             {
                 file_offset_t endposition = -1;
-                file_offset_t original = sdTellFile( FileID );
+                file_offset_t original = sdTellFile( FileID->fs );
                 if (original >= 0)
                 {
-                    sdSeekFile( FileID, 0, PF_SEEK_END );
-                    endposition = sdTellFile( FileID );
+                    sdSeekFile( FileID->fs, 0, PF_SEEK_END );
+                    endposition = sdTellFile( FileID->fs );
                     /* Restore original position. */
-                    sdSeekFile( FileID, original, PF_SEEK_SET );
+                    sdSeekFile( FileID->fs, original, PF_SEEK_SET );
                 }
                 if (endposition < 0)
                 {
@@ -1075,10 +1075,10 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             endcase;
 
         case ID_FILE_WRITE: /* ( addr len fid -- ior ) */
-            FileID = (FileStream *) TOS;
+            FileID = (OpenedFile *) TOS;
             Scratch = M_POP;
             CharPtr = (char *) M_POP;
-            Temp = sdWriteFile( CharPtr, 1, Scratch, FileID );
+            Temp = sdWriteFile( CharPtr, 1, Scratch, FileID->fs );
             TOS = (Temp != Scratch) ? -3 : 0;
             endcase;
 
@@ -1087,7 +1087,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
                 file_offset_t offset;
                 cell_t offsetHigh;
                 cell_t offsetLow;
-                FileID = (FileStream *) TOS;
+                FileID = (OpenedFile *) TOS;
                 offsetHigh = M_POP;
                 offsetLow = M_POP;
                 /* We do not support double precision file offsets in pForth.
@@ -1099,15 +1099,15 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
                     break;
                 }
                 offset = (file_offset_t)offsetLow;
-                TOS = sdSeekFile( FileID, offset, PF_SEEK_SET );
+                TOS = sdSeekFile( FileID->fs, offset, PF_SEEK_SET );
             }
             endcase;
 
         case ID_FILE_POSITION: /* ( fid -- ud ior ) */
             {
                 file_offset_t position;
-                FileID = (FileStream *) TOS;
-                position = sdTellFile( FileID );
+                FileID = (OpenedFile *) TOS;
+                position = sdTellFile( FileID->fs );
                 if (position < 0)
                 {
                     M_PUSH(0); /* low */
@@ -1145,7 +1145,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
 	case ID_FILE_FLUSH: /* ( fileid -- ior ) */
 	    {
-		FileStream *Stream = (FileStream *) TOS;
+		FileStream *Stream = ((OpenedFile *) TOS)->fs;
 		TOS = (sdFlushFile( Stream ) == 0) ? 0 : THROW_FLUSH_FILE;
 	    }
 	    endcase;
@@ -1160,7 +1160,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
 	case ID_FILE_RESIZE: /* ( ud fileid -- ior ) */
 	    {
-		FileStream *File = (FileStream *) TOS;
+		FileStream *File = ((OpenedFile *) TOS)->fs;
 		ucell_t SizeHi = (ucell_t) M_POP;
 		ucell_t SizeLo = (ucell_t) M_POP;
 		TOS = ( UdIsUint64( SizeHi )
@@ -1247,7 +1247,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
 #ifndef PF_NO_SHELL
         case ID_INCLUDE_FILE:
-            FileID = (FileStream *) TOS;
+            FileID = (OpenedFile *) TOS;
             M_DROP;    /* Drop now so that INCLUDE has a clean stack. */
             SAVE_REGISTERS;
             Scratch = ffIncludeFile( FileID );
@@ -1717,7 +1717,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
         case ID_SOURCE_ID_PUSH:  /* ( source-id -- ) */
             TOS = (cell_t)ffConvertSourceIDToStream( TOS );
-            Scratch = ffPushInputStream((FileStream *) TOS );
+            Scratch = ffPushInputStream(((OpenedFile *) TOS)->fs);
             if( Scratch )
             {
                 M_THROW(Scratch);
@@ -1899,6 +1899,14 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
 
         case ID_EXEC_SHELL: // ( a u -- n )
             TOS = system(interpretStringToC(gScratch, (char*)M_POP, TOS));
+            endcase;
+
+        case ID_SOURCEFILENAME: // ( -- c-addr u )
+                                // valid only while loading file
+            PUSH_TOS;
+            TOS = strlen(getCurrentFilename());
+            M_PUSH(getCurrentFilename());
+
             endcase;
 
         default:

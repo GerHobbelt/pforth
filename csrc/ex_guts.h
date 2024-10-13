@@ -33,7 +33,7 @@
 ** PFORTH_FILE_VERSION changes when incompatible changes are made
 ** in the ".dic" file format.
 **
-** FV3 - 950225 - Use ABS_TO_CODEREL for CodePtr. See file "pf_save.c".
+** FV3 - 950225 - Use ABS_TO_CODEREL for CodePtr. See file "ex_save.c".
 ** FV4 - 950309 - Added NameSize and CodeSize to pfSaveForth().
 ** FV5 - 950316 - Added Floats and reserved words.
 ** FV6 - 961213 - Added ID_LOCAL_PLUSSTORE, ID_COLON_P, etc.
@@ -300,7 +300,7 @@ enum cforth_primitive_ids
     ID_INCLUDE_CLIB,
     ID_OS_ID,
     ID_EXEC_SHELL,
-    ID_RESERVED06,
+    ID_SOURCEFILENAME,
     ID_RESERVED07,
     ID_RESERVED08,
     ID_RESERVED09,

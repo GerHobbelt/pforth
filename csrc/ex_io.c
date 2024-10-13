@@ -1,4 +1,4 @@
-/* @(#) pf_io.c 96/12/23 1.12 */
+/* @(#) ex_io.c 96/12/23 1.12 */
 /***************************************************************
 ** I/O subsystem for PForth based on 'C'
 **
@@ -153,6 +153,41 @@ gotline:
 /***********************************************************************************/
 /*********** File I/O **************************************************************/
 /***********************************************************************************/
+OpenedFile *sdOpenFile( const char *FileName, const char *Mode )
+{
+#ifdef PF_NO_FILEIO
+    UNIMPLEMENTED("sdOpenFile");
+    TOUCH(FileName);
+    TOUCH(Mode);
+    return NULL;
+#else
+    char buff[256];
+    FILE* file = fopen(getPath(FileName, buff), Mode);
+    if (file == NULL) return NULL;
+
+    OpenedFile* new = malloc(sizeof(OpenedFile));
+    new->fs = file;
+    memcpy(new->name, FileName, sizeof(new->name) / sizeof(char));
+    return new;
+#endif
+}
+
+cell_t sdCloseFile( OpenedFile * Stream )
+{
+#ifdef PF_NO_FILEIO
+   UNIMPLEMENTED("sdCloseFile");
+   TOUCH(Stream);
+   return 0;
+#else
+   if (fclose(Stream->fs) == 0) {
+      free(Stream);
+      return 0;
+   } else {
+      return EOF;
+   }
+#endif
+}
+
 #ifdef PF_NO_FILEIO
 
 /* Provide stubs for standard file I/O */
@@ -167,13 +202,6 @@ cell_t  sdInputChar( FileStream *stream )
     return -1;
 }
 
-FileStream *sdOpenFile( const char *FileName, const char *Mode )
-{
-    UNIMPLEMENTED("sdOpenFile");
-    TOUCH(FileName);
-    TOUCH(Mode);
-    return NULL;
-}
 cell_t sdFlushFile( FileStream * Stream  )
 {
     TOUCH(Stream);
@@ -208,12 +236,6 @@ cell_t sdSeekFile( FileStream * Stream, file_offset_t Position, int32_t Mode )
 file_offset_t sdTellFile( FileStream * Stream )
 {
     UNIMPLEMENTED("sdTellFile");
-    TOUCH(Stream);
-    return 0;
-}
-cell_t sdCloseFile( FileStream * Stream )
-{
-    UNIMPLEMENTED("sdCloseFile");
     TOUCH(Stream);
     return 0;
 }

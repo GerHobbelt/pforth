@@ -50,16 +50,18 @@
 
 #include "pforth.h"
 #include "pf_types.h"
-#include "pf_io.h"
+#include "ex_io.h"
 #include "ex_guts.h"
 #include "pf_text.h"
 #include "excompil.h"
 #include "pf_clib.h"
 #include "pf_words.h"
-#include "pf_save.h"
+#include "ex_save.h"
 #include "pf_mem.h"
 #include "ex_cglue.h"
-#include "pf_core.h"
+#include "ex_core.h"
+#include "ex_c_stuff.h"
+#include "ex_include_dirs.h"
 
 #ifdef PF_USER_INC2
 /* This could be used to undef and redefine macros. */

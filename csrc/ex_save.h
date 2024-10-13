@@ -1,4 +1,4 @@
-/* @(#) pf_save.h 96/12/18 1.8 */
+/* @(#) ex_save.h 96/12/18 1.8 */
 #ifndef _pforth_save_h
 #define _pforth_save_h
 
