@@ -58,6 +58,7 @@ Changes in '#include's due to file name changes are not included.
 - added ex_os.fth
 - added ex_shell.fth
 - added ex_parse.fth
+- added ex_clib.fth
 
 ## fth/ex_os.fth
 - all the OS words
@@ -68,6 +69,9 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_tetx.fth
 - PARSE-NAME
 - PARSE-LINE
+
+## fth/ex_clib.fth
+- all the C-LIBRARY stuff
 
 ## fth/mkdicdat.fth
 - added bye, so it doesn't exit to REPL mid compiling

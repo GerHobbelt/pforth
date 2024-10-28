@@ -10,6 +10,12 @@ with the added ability to have C bindings.
 - make including libs work
     - Windows support
 - remake shell exec to match that of Gforth (getenv, GFORTHSYSTEMPREFIX)
-- DOCS
 - add Gforth-like binding gen syntax
+- DOCS
+- missing standard extensions
+    - search
+    - doubble (kinda done (but not really))
+    - facility (also has parts implemented)
+    - tools (some missing)
+    - xchar (maybe....)
 - maybe add more Gforth words? (struct words, debug words...)

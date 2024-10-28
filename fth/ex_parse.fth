@@ -1,4 +1,4 @@
-anew task-ex_parse.sh
+anew task-ex_parse.fth
 
 : parse-name ( n1 "name" -- c-addr u)
   bl lword count ;

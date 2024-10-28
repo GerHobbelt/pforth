@@ -1,3 +1,5 @@
+include bindings.fth
+
 s" libtestlib.so" include-clib
 
 sourcefilename type cr
