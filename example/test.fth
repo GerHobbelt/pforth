@@ -40,4 +40,10 @@ sh$ 2@ type cr
 
 ." status: " $? . cr
 
+cr
+
+parse-name kill.ME type cr
+
+sh echo "$HOME"
+
 bye

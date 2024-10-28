@@ -1955,6 +1955,14 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             M_PUSH(getCurrentFilename());
 
             endcase;
+        
+        case ID_DIRNAME: // ( c-addr1 u1 -- c-addr2 u2 )
+
+            interpretStringToC(gScratch, (char*)M_POP, TOS);
+            TOS = strlen(gScratch);
+            M_PUSH(gScratch);
+
+            endcase;
 
         default:
             ERR("pfCatch: Unrecognised token = 0x");

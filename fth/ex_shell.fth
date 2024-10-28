@@ -1,7 +1,9 @@
+anew task-ex_shell.fth
+
 0 value $?
 create sh$ 0 , 0 ,
 
-: system ( c-addr u -- )
+: system ( c-addr u -- ) \ sets $?
   system-inner to $? ;
 
 : sh-get ( c-add u -- c-addr2 u2 ) \ sets $? sh$
@@ -10,3 +12,6 @@ create sh$ 0 , 0 ,
   sh$ !
   sh$ 1 cells + !
 ;
+
+: sh ( "..." -- ) \ sets $?
+  parse-line system ;

@@ -358,6 +358,7 @@ enum cforth_primitive_ids
     ID_SYSTEM_INNER,
     ID_SH_GET_INNER,
     ID_SOURCEFILENAME,
+    ID_DIRNAME,
 #endif
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */

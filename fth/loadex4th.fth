@@ -51,6 +51,7 @@ include? ESC[    termio.fth
 include? HISTORY history.fth
 
 include? windows? ex_os.fth
+include? parse-name ex_parse.fth
 include? system ex_shell.fth
 
 map

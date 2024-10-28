@@ -9,12 +9,14 @@ Changes in '#include's due to file name changes are not included.
 - added 'ID_INCLUDE_CLIB'
 - added 'ID_SYSTEM_INNER'
 - added 'SOURCEFILENAME'
+- added 'DORNAME'
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
 - added 'OS-ID' word
 - added 'SYSTEM-INNER' word
 - added 'SOURCEFILENAME' word
+- added 'DIRNAME' word
 - made ffIncludeFile work with ex_include_dirs.c
 - made it so that on error is thrown on BYE
 
@@ -22,8 +24,9 @@ Changes in '#include's due to file name changes are not included.
 - added case for token 'ID_INCLUDE_CLIB'
 - added case for token 'ID_OS_ID'
 - added case for token 'ID_SYSTEM_INNER'
-- replaced FileStream with OpenedFile
 - added case for token 'SOURCEFILENAME'
+- added case for token 'ID_DIRNAME'
+- replaced FileStream with OpenedFile
 
 ## csrc/excustom.c
 - made CustonFunctionLen mandatory
@@ -54,12 +57,17 @@ Changes in '#include's due to file name changes are not included.
 ## fth/loadex4th.fth
 - added ex_os.fth
 - added ex_shell.fth
+- added ex_parse.fth
 
 ## fth/ex_os.fth
 - all the OS words
 
 ## fth/ex_shell.fth
 - all the shell execution words
+
+## fth/ex_tetx.fth
+- PARSE-NAME
+- PARSE-LINE
 
 ## fth/mkdicdat.fth
 - added bye, so it doesn't exit to REPL mid compiling
