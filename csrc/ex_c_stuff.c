@@ -10,6 +10,8 @@ extern CFunc0 CustomFunctionTable[];
 extern size_t CustomFunctionLen;
 size_t ExFTLen = -1;
 
+char libnameBuff[128];
+
 // I need resizable pointer
 CFunc0* ExtendedFunctionTable = CustomFunctionTable;
 
@@ -69,7 +71,6 @@ void addFunction(void* fn, char* name, int argsNum, int returns) {
 }
 
 // what gets called from INCLUDE-CLIB
-#include <stdio.h>
 void addLib(char* libName) {
    // init if needed
    if (ExtendedFunctionTable == CustomFunctionTable) {
@@ -78,7 +79,7 @@ void addLib(char* libName) {
 
    // TODO: make is somehow depend on current file interpreted
    // TODO: add Windows support
-   void* handle = dlopen(libName, RTLD_LAZY);
+   void* handle = dlopen(getPath(libName, libnameBuff), RTLD_LAZY);
    if (handle == NULL) {
       pfReportError("INCLUDE-CLIB", PF_ERR_OPEN_FILE);
       EXIT(1);

@@ -40,7 +40,6 @@ static char* baseDir(const char* path, char* buff) {
   return buff;
 }
 
-// TODO: handle '..'
 static char* pathJoin(const char* p1, const char* p2, char* buff) {
   int p1Len = strlen(p1);
 

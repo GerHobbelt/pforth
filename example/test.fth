@@ -1,4 +1,4 @@
-s" ./example/libtestlib.so" include-clib
+s" libtestlib.so" include-clib
 
 sourcefilename type cr
 
