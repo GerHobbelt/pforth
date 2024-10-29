@@ -73,5 +73,8 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_clib.fth
 - all the C-LIBRARY stuff
 
+## fth/ex_ansilocs
+- added +TO
+
 ## fth/mkdicdat.fth
 - added bye, so it doesn't exit to REPL mid compiling

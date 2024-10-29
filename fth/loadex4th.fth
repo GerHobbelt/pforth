@@ -23,7 +23,7 @@ include? case    case.fth
 include? +field  structure.fth
 include? $=      strings.fth
 include? privatize   private.fth
-include? (local) ansilocs.fth
+include? (local) ex_ansilocs.fth
 include? {       locals.fth
 include? fm/mod  math.fth
 include? [if]    condcomp.fth

@@ -16,7 +16,7 @@ cr
 
 30 7+ . cr
 
-1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 looong cr
+1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 LOOONG cr
 
 OS-ID . cr
 
@@ -47,5 +47,7 @@ cr
 parse-name kill.ME type cr
 
 sh echo "$HOME"
+
+lib-tst
 
 bye

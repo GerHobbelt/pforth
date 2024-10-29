@@ -81,7 +81,8 @@ void addLib(char* libName) {
    // TODO: add Windows support
    void* handle = dlopen(getPath(libName, libnameBuff), RTLD_LAZY);
    if (handle == NULL) {
-      pfReportError("INCLUDE-CLIB", PF_ERR_OPEN_FILE);
+      printf("Error in INCLUDE-CLIB - could not open file %s",
+             getPath(libName, libnameBuff));
       EXIT(1);
    }
    addWords_t addWords = (addWords_t) dlsym(handle, "addWords");
