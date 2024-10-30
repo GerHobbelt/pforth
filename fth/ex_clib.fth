@@ -11,9 +11,9 @@ private{
 
 0 value lib-fileid
 create lib-name 64 allot
-0 value lib-name-len
+create lib-name-len 0 ,
 : lib-name@ ( -- c-addr u )
-  lib-name lib-name-len ;
+  lib-name lib-name-len @ ;
 
 unix? [if]
   s" echo $HOME/.exforth/" sh-get
@@ -23,17 +23,32 @@ unix? [if]
 [else]
   \ TODO: HERE WILL BE WINDOWS STUFF
 [then]
-lib-name-base-len to lib-name-len
+lib-name-base-len lib-name-len !
 
 create c-name-str 32 allot
-0 value c-name-len
+create c-name-len 0 ,
 : c-name@ ( -- c-addr u )
-  c-name-str c-name-len ;
+  c-name-str c-name-len @ ;
 
 create forth-name-str 32 allot
-0 value forth-name-len
+create forth-name-len 0 ,
 : forth-name@ ( -- c-addr u )
-  forth-name-str forth-name-len ;
+  forth-name-str forth-name-len @ ;
+
+create compile-command 256 allot
+create compile-command-len 0 ,
+: compile-command@ ( -- c-addr u )
+  compile-command compile-command-len @ ;
+
+create addWords-body 1024 allot
+create addWords-body-len 0 ,
+: addWords-body@ ( -- c-addr u ) 
+  addWords-body addWords-body-len @ ;
+
+create temp-words 1024 allot
+create temp-words-len 0 ,
+: temp-words@ ( -- c-addr u ) 
+  temp-words temp-words-len @ ;
 
 \ return types
 0 constant void
@@ -42,31 +57,29 @@ create forth-name-str 32 allot
 4 constant r
 5 constant s
 
-create compile-command 256 allot
-0 value compile-command-len
-: compile-command@ ( -- c-addr u )
-  compile-command compile-command-len ;
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+\ BUFFER SPECIFIC MANIPULATION \
+\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
 
-create addWords-body 1024 allot
-0 value addWords-body-len 0
-: addWords-body@ ( -- c-addr u ) 
-  addWords-body addWords-body-len ;
+: buff-write ( c-addr u buff-addr buff-len-addr -- )
+  rot dup rot +!
+  move ;
 
 : addWords-write ( c-addr u -- )
-  dup -rot
-  addWords-body@ + swap move
-  +to addWords-body-len
-;
+  addWords-body@ + addWords-body-len buff-write ;
 
 : addWords-write-line ( c-addr u -- )
   addWords-write
   s\" \n" addWords-write ;
 
+: temp-words-write ( c-addr u -- )
+  temp-words@ + temp-words-len buff-write ;
+
 s" void addWords(void* fn) {"
 addWords-write-line
 s" addFunction_t addFunction = (addFunction_t) fn;"
 addWords-write-line
-addWords-body-len constant addWords-body-base-len
+addWords-body-len @ constant addWords-body-base-len
 
 \ \ \ \ \ \
 \ FILE OPS \
@@ -83,12 +96,13 @@ addWords-body-len constant addWords-body-base-len
 \ \ \ \ \
 
 : reset-lib ( -- )
+  0 c-name-len !
   0 to lib-fileid
-  0 to c-name-len
-  0 to forth-name-len
-  0 to compile-command-len
-  lib-name-base-len to lib-name-len
-  addWords-body-base-len to addWords-body-len
+  0 forth-name-len !
+  0 temp-words-len !
+  0 compile-command-len !
+  lib-name-base-len lib-name-len !
+  addWords-body-base-len addWords-body-len !
 ;
 
 : lib-name! ( c-addr1 u1 -- )
@@ -96,10 +110,10 @@ addWords-body-len constant addWords-body-base-len
   \ add the name
   lib-name@ + swap move
   \ add extension
-  +to lib-name-len
+  lib-name-len +!
   s" .c" lib-name@ + swap move
   \ return
-  2 +to lib-name-len
+  2 lib-name-len +!
 ;
 
 
@@ -143,11 +157,11 @@ addWords-body-len constant addWords-body-base-len
 \ \ \ \ \ \ \ \ \ \
 
 : forth-name! ( c-addr u -- )
-  dup to forth-name-len
+  dup forth-name-len !
   forth-name-str swap move ;
 
 : c-name! ( c-addr u -- )
-  dup to c-name-len
+  dup c-name-len !
   c-name-str swap move ;
 
 : set-forth&c-names ( "forth-name" "c-name" -- )
