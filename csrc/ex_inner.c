@@ -1719,7 +1719,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
         case ID_SOURCE_ID_PUSH:  /* ( source-id -- ) */
             TOS = (cell_t)ffConvertSourceIDToStream( TOS );
-            Scratch = ffPushInputStream(((OpenedFile *) TOS)->fs);
+            Scratch = ffPushInputStream(((FileStream *) TOS));
             if( Scratch )
             {
                 M_THROW(Scratch);

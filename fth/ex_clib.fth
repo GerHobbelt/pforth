@@ -40,22 +40,28 @@ create compile-command-len 0 ,
 : compile-command@ ( -- c-addr u )
   compile-command compile-command-len @ ;
 
-create addWords-body 1024 allot
+create addWords-body 2048 allot \ ~ 25 funcs?
 create addWords-body-len 0 ,
 : addWords-body@ ( -- c-addr u ) 
   addWords-body addWords-body-len @ ;
 
-create temp-words 1024 allot
-create temp-words-len 0 ,
-: temp-words@ ( -- c-addr u ) 
-  temp-words temp-words-len @ ;
+create wrap-words 3400 allot
+create wrap-words-len 0 ,
+: wrap-words@ ( -- c-addr u ) 
+  wrap-words wrap-words-len @ ;
+
+create wrap-args 512 allot \ I support up to 15 args, so it can get quite long
+create wrap-args-len 0 ,
+: wrap-args@ ( -- c-addr u ) 
+  wrap-args wrap-args-len @ ;
 
 \ return types
-0 constant void
-1 constant n
-3 constant d
-4 constant r
-5 constant s
+0 constant n
+2 constant a
+3 constant r
+4 constant func
+5 constant void
+6 constant s
 
 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
 \ BUFFER SPECIFIC MANIPULATION \
@@ -72,8 +78,15 @@ create temp-words-len 0 ,
   addWords-write
   s\" \n" addWords-write ;
 
-: temp-words-write ( c-addr u -- )
-  temp-words@ + temp-words-len buff-write ;
+: wrap-words-write ( c-addr u -- )
+  wrap-words@ + wrap-words-len buff-write ;
+
+: wrap-args-write ( c-addr u -- )
+  wrap-args@ + wrap-args-len buff-write ;
+
+: wrap-args-write-line ( c-addr u -- )
+  wrap-args-write
+  s\" \n" wrap-args-write ;
 
 s" void addWords(void* fn) {"
 addWords-write-line
@@ -95,11 +108,12 @@ addWords-body-len @ constant addWords-body-base-len
 \ SETUP \
 \ \ \ \ \
 
-: reset-lib ( -- )
+: reset-all ( -- )
   0 c-name-len !
   0 to lib-fileid
+  0 wrap-args-len !
   0 forth-name-len !
-  0 temp-words-len !
+  0 wrap-words-len !
   0 compile-command-len !
   lib-name-base-len lib-name-len !
   addWords-body-base-len addWords-body-len !
@@ -174,41 +188,168 @@ addWords-body-len @ constant addWords-body-base-len
 : write-addWords-wrap-name ( -- )
   c-name@ addWords-write s" _FTH_INCLUDE" addWords-write ;
 
-\ : write-value-func ( -- )
-\   s" static cell_t " lib-write
-\   write-wrap-name s" () { return (cell_t)" lib-write
-\   c-name@ lib-write s" ; }" lib-write-line
-\ ;
-
 : write-variable-func ( -- )
   s" static cell_t " lib-write
   write-lib-wrap-name s" () { return (cell_t)&" lib-write
   c-name@ lib-write s" ; }" lib-write-line
 ;
 
-: write-bind-func ( n n -- ) \ type arg-num
+: write-bind-func ( f n -- ) \ returns? arg-num
   s" addFunction(&" addWords-write write-addWords-wrap-name
   s\" , \"" addWords-write forth-name@ addWords-write
   s\" \", " addWords-write s>d <# #s #> addWords-write
   s" , " addWords-write
-  case
-    void of
-      s" C_RETURNS_VOID"
-    endof
-    s" C_RETURNS_VALUE"
-    rot
-  endcase
+  if s" C_RETURNS_VALUE" else s" C_RETURNS_VOID" then
   addWords-write
   s" );" addWords-write-line
+;
+
+: transform-to-r ( c-addr1 u1 -- c-addr2 u2 )
+  [char] { scan dup 0= if
+    2drop
+    s" r{*(double*)&}"
+  else
+    s" r{" pad swap move
+    dup 1+ -rot \ save len
+    pad 2+ swap move
+    s" *(double*)&}"
+    rot 2dup + \ get total len
+    \ c-addr u u-pad u-final
+    swap 2swap
+    \ u-final u-pad c-addr u
+    rot pad + swap move
+    pad swap
+  then
+;
+
+: write-arg-c ( c-addr u arg-num -- )
+  dup 1 <> if s" , " wrap-args-write then
+
+  -rot
+  [char] { scan dup 0<> if
+    2- swap 1+ swap wrap-args-write
+  else 2drop then
+  s>d <# #s [char] v hold #> wrap-args-write
+;
+
+: write-arg-forth ( n n -- ) \ type nth
+  swap
+  dup s = if
+    drop
+    s"  fth>c { "
+  else
+    r = if
+      s"  here f! here @ { "
+    else
+      s" { "
+    then
+  then
+  wrap-words-write
+  s>d <# #s [char] v hold #> wrap-words-write
+  s"  }" wrap-words-write
 ;
 
 : str>type ( c-addr u -- n )
   drop
   case
-    dup s" void" swap text= ?of void endof
-    n
+    dup s" n" text= ?of n endof
+    dup s" a" text= ?of a endof
+    dup s" r" text= ?of r endof
+    dup s" func" text= ?of func endof
+    dup s" void" text= ?of void endof
+    dup s" s" text= ?of s endof
+    37 throw
   endcase
-  drop
+;
+
+: end-wrapper-word ( "type" -- f ) \ returns?
+  s"  " wrap-words-write
+  \ forth-name@ wrap-words-write
+  s" dup" wrap-words-write
+
+  parse-name dup 0= -rot
+  str>type dup void =
+  rot or not if
+    dup s = if
+      drop
+      s"  c>fth" wrap-words-write
+    else r = if
+      s"  here ! here f@" wrap-words-write
+    then then
+    true
+  else
+    false
+  then
+
+  s"  ;" wrap-words-write
+;
+
+: construct-wrapper-word ( "{type}" "--" "type" -- n f )
+  \ begin writing wrapper word
+  s"  : " wrap-words-write forth-name@ wrap-words-write
+  
+  \ read until return type
+  0 { args }
+  begin
+    parse-name
+    2dup
+    dup 0= -rot \ empty?
+    drop
+    s" --" text= or not
+  while
+    1 +to args
+
+    2dup str>type
+    dup void <> if
+      dup r = if 
+        -rot
+        transform-to-r
+      else
+        -rot
+      then
+      args write-arg-c
+      \ also accumulates types
+    else 2drop then
+
+  repeat
+  2drop
+
+  \ here I use the accumulated types
+  args 0 ?do
+    args i - write-arg-forth
+  loop
+
+  args 0 ?do
+    s"  v" wrap-words-write
+    i 1+ s>d <# #s #> wrap-words-write
+  loop
+
+  args
+  end-wrapper-word
+;
+
+: construct-wrapper-func ( n f -- ) \ arg-num returns?
+  s" static " lib-write
+  if s" cell_t " else s" void " then lib-write
+  write-lib-wrap-name
+  s" (" lib-write
+  0 ?do
+    i 0<> if s" , " lib-write then
+    s" cell_t v" lib-write
+    i 1+ s>d <# #s #> lib-write
+  loop
+  s" ) {" lib-write-line
+  c-name@ lib-write
+  s" (" lib-write
+  wrap-args@ lib-write
+  s\" );\n}" lib-write-line
+;
+
+: write-wraper-function ( "{type}" "--" "type" -- f n )
+  0 wrap-args-len !
+  construct-wrapper-word 2dup
+  construct-wrapper-func
+  swap
 ;
 
 }private
@@ -219,23 +360,22 @@ addWords-body-len @ constant addWords-body-base-len
 \ USER CALLABLE \
 \ \ \ \ \ \ \ \ \
 
+: add-lib ( c-addr u -- )
+  s"  -l" command-write command-write ;
+
 : \c ( "..." -- )
   parse-line lib-write-line ;
 
 : c-function ( "forth-name" "c-name" "{type}" "--" "type" -- )
   set-forth&c-names
+  write-wraper-function
+  write-bind-func
 ;
-
-\ : c-value ( "forth-name" "c-name" "--" "type" -- )
-\   set-forth&c-names
-\   write-value-func
-\   parse-name 2drop parse-name str>type 0 write-bind-func
-\ ;
 
 : c-variable ( "forth-name" "c-name" -- )
   set-forth&c-names
   write-variable-func
-  n 0 write-bind-func
+  true 0 write-bind-func
 ;
 
 \ \ \ \ \ \ \ \ \
@@ -246,7 +386,7 @@ addWords-body-len @ constant addWords-body-base-len
 
 : c-library-name ( c-addr u -- )
   \ TODO: check if already compiled
-  reset-lib
+  reset-all
   unix? if
     s" mkdir ~/.exforth 2> /dev/null" system
   else
@@ -271,7 +411,9 @@ addWords-body-len @ constant addWords-body-base-len
   compile-command@ system
   \ I don't know if I like or hate this hack
   s" so" lib-name@ 1- + swap move
+
   lib-name@ 1+ include-clib
+  wrap-words@  evaluate
 ;
 
 privatize

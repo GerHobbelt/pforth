@@ -53,6 +53,7 @@ include? HISTORY history.fth
 include? windows? ex_os.fth
 include? parse-name ex_parse.fth
 include? system ex_shell.fth
+include? fth>c ex_strings.fth
 include? c-library ex_clib.fth
 
 map
