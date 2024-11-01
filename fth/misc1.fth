@@ -168,7 +168,6 @@ variable CLOSEST-XT
     -1 push-source-id
     >in @ >r
     0 >in !
-    99 .
 \ interpret the string
     interpret
 \ restore input state

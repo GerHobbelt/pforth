@@ -138,6 +138,10 @@ addWords-body-len @ constant addWords-body-base-len
   lib-write-line
   s" #define C_RETURNS_VALUE (1)"
   lib-write-line
+  s" #define N(b) return (cell_t)b"
+  lib-write-line
+  s" #define R(b) double d = b; return *(cell_t*)&d"
+  lib-write-line
   s" typedef void (*addFunction_t)(void* fn, char* name, int argsNum, int returns);"
   lib-write-line
   s" typedef intptr_t cell_t;"
@@ -262,13 +266,13 @@ addWords-body-len @ constant addWords-body-base-len
   endcase
 ;
 
-: end-wrapper-word ( "type" -- f ) \ returns?
+: end-wrapper-word ( "type" -- n ) \ return-type
   s"  " wrap-words-write
   \ forth-name@ wrap-words-write
-  s" dup" wrap-words-write
+  forth-name@ wrap-words-write
 
   parse-name dup 0= -rot
-  str>type dup void =
+  str>type dup -rot dup void =
   rot or not if
     dup s = if
       drop
@@ -276,15 +280,12 @@ addWords-body-len @ constant addWords-body-base-len
     else r = if
       s"  here ! here f@" wrap-words-write
     then then
-    true
-  else
-    false
   then
 
   s"  ;" wrap-words-write
 ;
 
-: construct-wrapper-word ( "{type}" "--" "type" -- n f )
+: construct-wrapper-word ( "{type}" "--" "type" -- n n ) \ arg-num return-type
   \ begin writing wrapper word
   s"  : " wrap-words-write forth-name@ wrap-words-write
   
@@ -328,28 +329,38 @@ addWords-body-len @ constant addWords-body-base-len
   end-wrapper-word
 ;
 
-: construct-wrapper-func ( n f -- ) \ arg-num returns?
+: get-return-macro ( n -- c-addr u )
+  dup void = if drop s" ("
+  else r = if s" R("
+  else s" N("
+  then then
+;
+
+: construct-wrapper-func ( n n -- ) \ arg-num return-type
   s" static " lib-write
-  if s" cell_t " else s" void " then lib-write
+  dup void = if s" void " else s" cell_t " then lib-write
   write-lib-wrap-name
   s" (" lib-write
-  0 ?do
+  swap 0 ?do
     i 0<> if s" , " lib-write then
     s" cell_t v" lib-write
     i 1+ s>d <# #s #> lib-write
   loop
   s" ) {" lib-write-line
+
+  get-return-macro lib-write
+
   c-name@ lib-write
   s" (" lib-write
   wrap-args@ lib-write
-  s\" );\n}" lib-write-line
+  s\" ));\n}" lib-write-line
 ;
 
 : write-wraper-function ( "{type}" "--" "type" -- f n )
   0 wrap-args-len !
   construct-wrapper-word 2dup
   construct-wrapper-func
-  swap
+  void <> swap
 ;
 
 }private
@@ -413,7 +424,9 @@ addWords-body-len @ constant addWords-body-base-len
   s" so" lib-name@ 1- + swap move
 
   lib-name@ 1+ include-clib
-  wrap-words@  evaluate
+  \ s" : m:sin here f! here @ { v1 } v1 dup . m:sin dup . here ! here f@ ;"
+  \ evaluate
+  wrap-words@ evaluate
 ;
 
 privatize

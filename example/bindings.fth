@@ -11,4 +11,5 @@ end-c-library
 
 : lib-tst ( -- )
   tst:var c@ .
+  10.0 m:sin f.
 ;
