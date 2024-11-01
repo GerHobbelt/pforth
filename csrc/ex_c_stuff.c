@@ -94,4 +94,5 @@ void addLib(char* libName) {
    }
 
    addWords((void*) &addFunction);
+   printf("|%d\n", ExFTLen);
 }

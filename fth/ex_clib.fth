@@ -90,7 +90,7 @@ create wrap-args-len 0 ,
 
 s" void addWords(void* fn) {"
 addWords-write-line
-s" addFunction_t addFunction = (addFunction_t) fn;"
+s" af_t af = (af_t) fn;"
 addWords-write-line
 addWords-body-len @ constant addWords-body-base-len
 
@@ -134,22 +134,22 @@ addWords-body-len @ constant addWords-body-base-len
 : lib-begin ( -- )
   s" #include <stdint.h>"
   lib-write-line
-  s" #define C_RETURNS_VOID  (0)"
+  s" #define VOID  (0)"
   lib-write-line
-  s" #define C_RETURNS_VALUE (1)"
+  s" #define VALUE (1)"
   lib-write-line
-  s" #define N(b) return (cell_t)b"
+  s" #define N(b) return (c_t)b"
   lib-write-line
-  s" #define R(b) double d = b; return *(cell_t*)&d"
+  s" #define R(b) double d = b; return *(c_t*)&d"
   lib-write-line
-  s" typedef void (*addFunction_t)(void* fn, char* name, int argsNum, int returns);"
+  s" typedef void (*af_t)(void* fn, char* name, int argsNum, int returns);"
   lib-write-line
-  s" typedef intptr_t cell_t;"
+  s" typedef intptr_t c_t;"
   lib-write-line
 ;
 
 : lib-end ( -- )
-  s" }" addWords-write
+  s" } " addWords-write
   addWords-body@ lib-write-line ;
 
 \ \ \ \ \ \ \ \ \
@@ -187,23 +187,23 @@ addWords-body-len @ constant addWords-body-base-len
   parse-name c-name! ;
 
 : write-lib-wrap-name ( -- )
-  c-name@ lib-write s" _FTH_INCLUDE" lib-write ;
+  c-name@ lib-write s" _EX_WRP" lib-write ;
 
 : write-addWords-wrap-name ( -- )
-  c-name@ addWords-write s" _FTH_INCLUDE" addWords-write ;
+  c-name@ addWords-write s" _EX_WRP" addWords-write ;
 
 : write-variable-func ( -- )
-  s" static cell_t " lib-write
-  write-lib-wrap-name s" () { return (cell_t)&" lib-write
+  s" static c_t " lib-write
+  write-lib-wrap-name s" () { return (c_t)&" lib-write
   c-name@ lib-write s" ; }" lib-write-line
 ;
 
 : write-bind-func ( f n -- ) \ returns? arg-num
-  s" addFunction(&" addWords-write write-addWords-wrap-name
+  s" af(&" addWords-write write-addWords-wrap-name
   s\" , \"" addWords-write forth-name@ addWords-write
   s\" \", " addWords-write s>d <# #s #> addWords-write
   s" , " addWords-write
-  if s" C_RETURNS_VALUE" else s" C_RETURNS_VOID" then
+  if s" VALUE" else s" VOID" then
   addWords-write
   s" );" addWords-write-line
 ;
@@ -226,6 +226,24 @@ addWords-body-len @ constant addWords-body-base-len
   then
 ;
 
+
+: transform-to-s ( c-addr1 u1 -- c-addr2 u2 )
+  [char] { scan dup 0= if
+    2drop
+    s" r{(char*)}"
+  else
+    s" r{" pad swap move
+    dup 1+ -rot \ save len
+    pad 2+ swap move
+    s" (char*)}"
+    rot 2dup + \ get total len
+    \ c-addr u u-pad u-final
+    swap 2swap
+    \ u-final u-pad c-addr u
+    rot pad + swap move
+    pad swap
+  then
+;
 : write-arg-c ( c-addr u arg-num -- )
   dup 1 <> if s" , " wrap-args-write then
 
@@ -236,21 +254,17 @@ addWords-body-len @ constant addWords-body-base-len
   s>d <# #s [char] v hold #> wrap-args-write
 ;
 
-: write-arg-forth ( n n -- ) \ type nth
-  swap
+: write-arg-forth ( n -- ) \ type
   dup s = if
     drop
-    s"  fth>c { "
+    s" fth>c"
+    wrap-words-write
   else
     r = if
-      s"  here f! here @ { "
-    else
-      s" { "
-    then
-  then
-  wrap-words-write
-  s>d <# #s [char] v hold #> wrap-words-write
-  s"  }" wrap-words-write
+      s" here f! here @" \ I don't want to destroy pad, arg strings might
+      wrap-words-write
+  then then
+  s"  >r " wrap-words-write
 ;
 
 : str>type ( c-addr u -- n )
@@ -267,8 +281,6 @@ addWords-body-len @ constant addWords-body-base-len
 ;
 
 : end-wrapper-word ( "type" -- n ) \ return-type
-  s"  " wrap-words-write
-  \ forth-name@ wrap-words-write
   forth-name@ wrap-words-write
 
   parse-name dup 0= -rot
@@ -285,9 +297,16 @@ addWords-body-len @ constant addWords-body-base-len
   s"  ;" wrap-words-write
 ;
 
+: fill-arg-pop ( n -- )
+  0 ?do
+    s"  r> " wrap-words-write
+  loop
+;
+
 : construct-wrapper-word ( "{type}" "--" "type" -- n n ) \ arg-num return-type
   \ begin writing wrapper word
   s"  : " wrap-words-write forth-name@ wrap-words-write
+  s"  " wrap-words-write
   
   \ read until return type
   0 { args }
@@ -302,11 +321,16 @@ addWords-body-len @ constant addWords-body-base-len
 
     2dup str>type
     dup void <> if
-      dup r = if 
-        -rot
+      dup dup r = if 
+        drop -rot
         transform-to-r
       else
-        -rot
+        s = if
+          -rot
+          transform-to-s
+        else
+          -rot
+        then
       then
       args write-arg-c
       \ also accumulates types
@@ -317,13 +341,10 @@ addWords-body-len @ constant addWords-body-base-len
 
   \ here I use the accumulated types
   args 0 ?do
-    args i - write-arg-forth
+    write-arg-forth
   loop
 
-  args 0 ?do
-    s"  v" wrap-words-write
-    i 1+ s>d <# #s #> wrap-words-write
-  loop
+  args fill-arg-pop
 
   args
   end-wrapper-word
@@ -338,12 +359,12 @@ addWords-body-len @ constant addWords-body-base-len
 
 : construct-wrapper-func ( n n -- ) \ arg-num return-type
   s" static " lib-write
-  dup void = if s" void " else s" cell_t " then lib-write
+  dup void = if s" void " else s" c_t " then lib-write
   write-lib-wrap-name
   s" (" lib-write
   swap 0 ?do
     i 0<> if s" , " lib-write then
-    s" cell_t v" lib-write
+    s" c_t v" lib-write
     i 1+ s>d <# #s #> lib-write
   loop
   s" ) {" lib-write-line
@@ -424,9 +445,7 @@ addWords-body-len @ constant addWords-body-base-len
   s" so" lib-name@ 1- + swap move
 
   lib-name@ 1+ include-clib
-  \ s" : m:sin here f! here @ { v1 } v1 dup . m:sin dup . here ! here f@ ;"
-  \ evaluate
-  wrap-words@ evaluate
+  wrap-words@ 2dup type evaluate
 ;
 
 privatize

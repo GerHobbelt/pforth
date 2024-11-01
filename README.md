@@ -14,6 +14,7 @@ with the added ability to have C bindings.
 - rebrand user facing stuff
 - some inclusion testing for edge cases
 - DOCS
+- fix the underflow problems
 - missing standard extensions
     - search
     - doubble (kinda done (but not really))
