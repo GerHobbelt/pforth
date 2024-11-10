@@ -3,7 +3,6 @@
 #include "pf_all.h"
 #include "ex_c_stuff.h"
 
-#define CFUNC0_BYTES (sizeof(CFunc0) / 8)
 typedef void (*addWords_t)(void* num);
 
 extern CFunc0 CustomFunctionTable[];
@@ -41,7 +40,7 @@ void initExFT(void) {
       pfReportError("INCLUDE-CLIB", PF_ERR_NO_MEM);
       EXIT(1);
    }
-   memcpy(ExtendedFunctionTable, CustomFunctionTable, ExFTLen * CFUNC0_BYTES);
+   memcpy(ExtendedFunctionTable, CustomFunctionTable, ExFTLen * sizeof(CFunc0));
 }
 
 // adds a function from a ptr
@@ -59,7 +58,7 @@ void addFunction(void* fn, char* name, int argsNum, int returns) {
    // resize
    ExFTLen++;
 
-   ExtendedFunctionTable = realloc(ExtendedFunctionTable, ExFTLen*CFUNC0_BYTES);
+   ExtendedFunctionTable = realloc(ExtendedFunctionTable, ExFTLen*sizeof(CFunc0));
    if (ExtendedFunctionTable == NULL) {
       pfReportError("INCLUDE-CLIB", PF_ERR_NO_MEM);
       EXIT(1);
@@ -94,5 +93,4 @@ void addLib(char* libName) {
    }
 
    addWords((void*) &addFunction);
-   printf("|%d\n", ExFTLen);
 }

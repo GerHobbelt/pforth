@@ -1,5 +1,6 @@
 #include <string.h>
 #include "pf_all.h"
+// TODO: checks?
 
 char* paths[32];
 int CurrentPathsLen = 0;

@@ -4,6 +4,16 @@ c-library testlib
   \c #include <math.h>
   \c #include <stdio.h>
 
+  \c typedef struct TestStruct {
+  \c   int64_t n1;
+  \c   int64_t n2;
+  \c } TestStruct;
+
+  \c void printStruct(TestStruct ts) { 
+  \c   printf("I will give you my struct now:\n");
+  \c   printf("  %d-%d\n", ts.n1, ts.n2);
+  \c } 
+
   \c int customFunc(int x, int y, float z, int p) {
   \c   printf("> %d %d %f %d\n", x, y, z, p);
   \c   return (x+y - (int)z + p);
@@ -20,11 +30,15 @@ c-library testlib
   c-variable tst:var var
   c-function c:func customFunc n n r n -- n
   c-function handshake handshake s -- s
+  c-function c:print-structure printStruct a{*(TestStruct*)} -- void
 end-c-library
 
+create struct~ 6 , 9 ,
+
 : lib-tst ( -- )
-  tst:var c@ .
   10.0 m:sin f.
+  tst:var c@ .
   cr 4.4 4 3 2 c:func .
   cr s" Hi from ex:forth~" handshake type cr
+  struct~ c:print-structure 
 ;

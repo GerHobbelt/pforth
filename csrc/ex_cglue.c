@@ -230,7 +230,7 @@ Err CreateGlueToC( const char *CName, ucell_t Index, cell_t ReturnMode, int32_t 
 
     ffCreateSecondaryHeader( FName );
     CODE_COMMA( ID_CALL_C );
-    CODE_COMMA(Packed);
+    CODE_COMMA( Packed );
     ffFinishSecondary();
 
     return 0;

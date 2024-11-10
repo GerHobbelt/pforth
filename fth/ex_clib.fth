@@ -257,14 +257,14 @@ addWords-body-len @ constant addWords-body-base-len
 : write-arg-forth ( n -- ) \ type
   dup s = if
     drop
-    s" fth>c"
+    s" fth>c "
     wrap-words-write
   else
     r = if
-      s" here f! here @" \ I don't want to destroy pad, arg strings might
+      s" here f! here @ " \ I don't want to destroy pad, arg strings might
       wrap-words-write
   then then
-  s"  >r " wrap-words-write
+  s" >r " wrap-words-write
 ;
 
 : str>type ( c-addr u -- n )
@@ -292,16 +292,13 @@ addWords-body-len @ constant addWords-body-base-len
     else r = if
       s"  here ! here f@" wrap-words-write
     then then
-  then
+  else drop then
 
   s"  ;" wrap-words-write
 ;
 
 : fill-arg-pop ( n -- )
-  0 ?do
-    s"  r> " wrap-words-write
-  loop
-;
+  0 ?do s" r> " wrap-words-write loop ;
 
 : construct-wrapper-word ( "{type}" "--" "type" -- n n ) \ arg-num return-type
   \ begin writing wrapper word
@@ -309,6 +306,7 @@ addWords-body-len @ constant addWords-body-base-len
   s"  " wrap-words-write
   
   \ read until return type
+  \ also accumulates types
   0 { args }
   begin
     parse-name
@@ -333,7 +331,6 @@ addWords-body-len @ constant addWords-body-base-len
         then
       then
       args write-arg-c
-      \ also accumulates types
     else 2drop then
 
   repeat
@@ -357,16 +354,22 @@ addWords-body-len @ constant addWords-body-base-len
   then then
 ;
 
+: write-wrapper-args ( n -- )
+  0 ?do
+    i 0<> if s" , " lib-write then
+    s" c_t v" lib-write
+    i 1+ s>d <# #s #> lib-write
+  loop
+;
+
 : construct-wrapper-func ( n n -- ) \ arg-num return-type
   s" static " lib-write
   dup void = if s" void " else s" c_t " then lib-write
   write-lib-wrap-name
   s" (" lib-write
-  swap 0 ?do
-    i 0<> if s" , " lib-write then
-    s" c_t v" lib-write
-    i 1+ s>d <# #s #> lib-write
-  loop
+
+  swap write-wrapper-args
+
   s" ) {" lib-write-line
 
   get-return-macro lib-write
@@ -445,7 +448,7 @@ addWords-body-len @ constant addWords-body-base-len
   s" so" lib-name@ 1- + swap move
 
   lib-name@ 1+ include-clib
-  wrap-words@ 2dup type evaluate
+  wrap-words@ evaluate
 ;
 
 privatize
