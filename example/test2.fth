@@ -2,4 +2,4 @@
 
 sourcefilename type cr
 
-include inner/1.fth
+require inner/1.fth

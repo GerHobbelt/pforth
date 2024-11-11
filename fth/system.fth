@@ -747,6 +747,29 @@ variable TRACE-INCLUDE
     " ;;;;" ['] noop (:)
 ;
 
+3 constant (include-prefixes-elems)
+create (include-prefixes) (include-prefixes-elems) cells allot
+
+\ for some reason addresses change later on, so I will store exec tokens
+
+:noname s" /usr/local/share/exforth/" ;
+(include-prefixes) !
+
+\ will be filled later in ex_shell.fth
+:noname s" " ; (include-prefixes) 1 cells + !
+
+:noname s" ../fth/ex_local_share/" ;
+(include-prefixes) 2 cells + !
+
+: MOVE ( src dst num -- )
+    >r 2dup - 0<
+    IF
+        r> CMOVE>
+    ELSE
+        r> CMOVE
+    THEN
+;
+
 : INCLUDED ( c-addr u -- )
 	\ Print messages.
         trace-include @
@@ -754,7 +777,24 @@ variable TRACE-INCLUDE
                 >newline ." Include " 2dup type cr
         THEN
         here >r
+
         2dup r/o open-file
+
+        \ try open with paths
+        (include-prefixes-elems) 0 do
+          dup if
+            drop drop
+
+            (include-prefixes) i cells + @ execute
+            dup >r dup >r
+            pad swap move
+
+            2dup pad r> + swap move
+            pad over r> +
+            r/o open-file
+          then
+        loop
+
         IF  ( -- c-addr u bad-fid )
                 drop ." Could not find file " type cr abort
         ELSE ( -- c-addr u good-fid )

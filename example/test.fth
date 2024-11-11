@@ -53,5 +53,12 @@ lib-tst
 ." ---------" cr
 
 utime ntime time&date .s
+drop drop drop drop drop drop drop drop drop drop
+
+s" HOME" getenv type cr
+
+require random.fs
+
+random .
 
 bye
