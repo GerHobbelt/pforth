@@ -8,15 +8,23 @@ Changes in '#include's due to file name changes are not included.
 - added 'ID_OS_ID'
 - added 'ID_INCLUDE_CLIB'
 - added 'ID_SYSTEM_INNER'
-- added 'SOURCEFILENAME'
-- added 'DORNAME'
+- added 'ID_SH_GET_INNER'
+- added 'ID_SOURCEFILENAME'
+- added 'ID_DIRNAME'
+- added 'ID_TIME_N_DATE'
+- added 'ID_UTIME'
+- added 'ID_NTIME'
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
 - added 'OS-ID' word
-- added 'SYSTEM-INNER' word
+- added '(SYSTEM)' word
+- added '(SH-GET)' word
 - added 'SOURCEFILENAME' word
 - added 'DIRNAME' word
+- added 'TIME&DATE' word
+- added 'UTIME' word
+- added 'NTIME' word
 - made ffIncludeFile work with ex_include_dirs.c
 - made it so that on error is thrown on BYE
 
@@ -24,8 +32,12 @@ Changes in '#include's due to file name changes are not included.
 - added case for token 'ID_INCLUDE_CLIB'
 - added case for token 'ID_OS_ID'
 - added case for token 'ID_SYSTEM_INNER'
+- added case for token 'ID_SH_GET_INNER'
 - added case for token 'SOURCEFILENAME'
 - added case for token 'ID_DIRNAME'
+- added case for token 'ID_TIME_N_DATE'
+- added case for token 'ID_UTIME'
+- added case for token 'ID_NTIME'
 - replaced FileStream with OpenedFile
 
 ## csrc/excustom.c

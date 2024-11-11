@@ -50,4 +50,8 @@ sh echo "$HOME"
 
 lib-tst
 
+." ---------" cr
+
+utime ntime time&date .s
+
 bye

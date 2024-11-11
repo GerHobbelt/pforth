@@ -387,10 +387,13 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
 
     CreateDicEntryC( ID_INCLUDE_CLIB, "INCLUDE-CLIB", 0 );
     CreateDicEntryC( ID_OS_ID, "OS-ID", 0 );
-    CreateDicEntryC( ID_SYSTEM_INNER, "SYSTEM-INNER", 0 );
-    CreateDicEntryC( ID_SH_GET_INNER, "SH-GET-INNER", 0 );
+    CreateDicEntryC( ID_SYSTEM_INNER, "(SYSTEM)", 0 );
+    CreateDicEntryC( ID_SH_GET_INNER, "(SH-GET)", 0 );
     CreateDicEntryC( ID_SOURCEFILENAME, "SOURCEFILENAME", 0 );
     CreateDicEntryC( ID_DIRNAME, "DIRNAME", 0 );
+    CreateDicEntryC( ID_TIME_N_DATE, "TIME&DATE", 0 );
+    CreateDicEntryC( ID_UTIME, "UTIME", 0 );
+    CreateDicEntryC( ID_NTIME, "NTIME", 0 );
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
     if( FindSpecialXTs() < 0 ) goto error;

@@ -4,10 +4,10 @@ anew task-ex_shell.fth
 create sh$ 0 , 0 ,
 
 : system ( c-addr u -- ) \ sets $?
-  system-inner to $? ;
+  (system) to $? ;
 
 : sh-get ( c-add u -- c-addr2 u2 ) \ sets $? sh$
-  sh-get-inner to $?
+  (sh-get) to $?
   2dup
   sh$ !
   sh$ 1 cells + !

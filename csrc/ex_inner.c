@@ -33,6 +33,7 @@
 
 #include "ex_c_stuff.h"
 
+#include <time.h>
 #if defined(WIN32) && !defined(__MINGW32__)
 #include <crtdbg.h>
 #endif
@@ -1962,6 +1963,51 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             TOS = strlen(gScratch);
             M_PUSH(gScratch);
 
+            endcase;
+
+
+        // TODO: add windows support for time words
+        case ID_TIME_N_DATE:
+            {
+               time_t ct = time(NULL);
+               struct tm* lt = localtime(&ct);
+               PUSH_TOS;
+               TOS = lt->tm_sec;
+               PUSH_TOS;
+               TOS = lt->tm_min;
+               PUSH_TOS;
+               TOS = lt->tm_hour;
+               PUSH_TOS;
+               TOS = lt->tm_mday;
+               PUSH_TOS;
+               TOS = lt->tm_mon+1; // counted from 0 in C, but from 1 in FORTH
+               PUSH_TOS;
+               TOS = lt->tm_year+1900; // year as a offset in C but num in FORTH
+            }
+            endcase;
+        
+        case ID_UTIME:
+            {
+               struct timespec ts;
+               clock_gettime(CLOCK_REALTIME, &ts);
+
+               PUSH_TOS;
+               TOS = (ts.tv_sec * 1000000000 + ts.tv_nsec) / 1000;
+               PUSH_TOS;
+               TOS = 0;
+            }
+            endcase;
+        
+        case ID_NTIME:
+            {
+               struct timespec ts;
+               clock_gettime(CLOCK_REALTIME, &ts);
+
+               PUSH_TOS;
+               TOS = (ts.tv_sec * 1000000000 + ts.tv_nsec);
+               PUSH_TOS;
+               TOS = 0;
+            }
             endcase;
 
         default:
