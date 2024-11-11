@@ -120,7 +120,7 @@ Err CompileCustomFunctions( void ) { return 0; }
 /****************************************************************
 ** Step 4: Recompile using compiler option PF_USER_CUSTOM
 **         and link with your code.
-**         Then rebuild the Forth using "pforth -i system.fth"
+**         Then rebuild the Forth using "pforth -i ex_system.fth"
 **         Test:   10 Ctest0 ( should print message then '11' )
 ****************************************************************/
 

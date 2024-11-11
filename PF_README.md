@@ -64,7 +64,7 @@ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
 Building pForth involves two steps:
 1) building the C based Forth kernel
-2) building the Forth dictionary file using: ./pforth -i system.fth
+2) building the Forth dictionary file using: ./pforth -i ex_system.fth
 3) optional build of standalone executable with built-in dictionary
 
 We have provided build scripts to simplify this process.

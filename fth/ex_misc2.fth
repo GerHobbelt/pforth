@@ -172,14 +172,7 @@ variable rand-seed here rand-seed !
     THEN
 ;
 
-: MOVE ( src dst num -- )
-    >r 2dup - 0<
-    IF
-        r> CMOVE>
-    ELSE
-        r> CMOVE
-    THEN
-;
+\ MOVE has moved to another castle
 
 : ERASE ( caddr num -- )
     dup 0>

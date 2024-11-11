@@ -73,11 +73,19 @@ Changes in '#include's due to file name changes are not included.
 - added ex_clib.fth
 - added ex_strings.fth
 
+## fth/ex_misc2.fth
+- moved MOVE to ex_system.fth
+
+## fth/ex_system.fth
+- moved MOVE here
+- made include search in specific prefixes
+
 ## fth/ex_os.fth
 - all the OS words
 
 ## fth/ex_shell.fth
 - all the shell execution words
+- .local include prefix
 
 ## fth/ex_tetx.fth
 - PARSE-NAME
@@ -88,6 +96,9 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/ex_ansilocs
 - added +TO
+
+## fth/ex_local_share/random.fs
+- pseudorandom number generator
 
 ## fth/ex_strings
 - additional string words

@@ -15,7 +15,7 @@
 #
 # The build has several steps
 # 1. Build pforth executable
-# 2. Build pforth.dic by compiling system.fth
+# 2. Build pforth.dic by compiling ex_system.fth
 # 3. Create a pfdicdat.h header containing a precompiled dictionary
 #    as C source code.
 # 4.  Build pforth_standalone using the precompiled dictionary.
@@ -64,10 +64,10 @@ endif(UNISTD)
 add_executable(pforth csrc/pf_main.c)
 target_link_libraries(pforth ${PROJECT_NAME}_lib ${PFORTH_EXTRA_LIBS})
 
-# 2. Build pforth.dic by compiling system.fth
+# 2. Build pforth.dic by compiling ex_system.fth
 set(PFORTH_DIC "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pforth.dic")
 add_custom_command(OUTPUT ${PFORTH_DIC}
-  COMMAND ./${PFORTH_EXE} -i ${PFORTH_FTH_DIR}/system.fth
+  COMMAND ./${PFORTH_EXE} -i ${PFORTH_FTH_DIR}/ex_system.fth
   WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
   DEPENDS pforth
   COMMENT Building pforth.dic

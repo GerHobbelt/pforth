@@ -389,7 +389,7 @@ enum cforth_primitive_ids
 /* THROW codes unique to pForth */
 #define THROW_BYE            (-256) /* Exit program. */
 #define THROW_SEMICOLON      (-257) /* Error detected at ; */
-#define THROW_DEFERRED       (-258) /* Not a deferred word. Used in system.fth */
+#define THROW_DEFERRED       (-258) /* Not a deferred word. Used in ex_system.fth */
 
 /***************************************************************
 ** Structures

@@ -38,7 +38,7 @@
 #include <crtdbg.h>
 #endif
 
-#define SYSTEM_LOAD_FILE "system.fth"
+#define SYSTEM_LOAD_FILE "ex_system.fth"
 
 /***************************************************************
 ** Macros for data stack access.

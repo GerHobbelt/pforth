@@ -163,7 +163,7 @@ Documentation at http://www.softsynth.com/pforth/
       if called when (BASE != 10), as in HEX mode.
 * Fixed address comparisons in forget.fth and private.fth for
       addresses above 0x80000000. Must be unsigned.
-* Call FREEZE at end of system.fth to initialize rfence.
+* Call FREEZE at end of ex_system.fth to initialize rfence.
 * Fixed 0.0 F. which used to leave 0.0 on FP stack.
 * Added FPICK ( n -- ) ( i*f -- i*f f[n] )
 * .S now prints hex numbers as unsigned.
