@@ -6,6 +6,8 @@ sourcefilename type cr
 
 include test2.fth
 
+require random.fs
+
 hello-world
 cr
 hi!
@@ -57,8 +59,15 @@ drop drop drop drop drop drop drop drop drop drop
 
 s" HOME" getenv type cr
 
-require random.fs
+seed @ . cr
 
-random .
+: print-random ( -- )
+  25 0 do
+    40 random 10 + .
+    i 1+ 5 mod 0= if cr then
+  loop
+;
+
+print-random
 
 bye
