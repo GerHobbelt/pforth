@@ -14,6 +14,7 @@ Changes in '#include's due to file name changes are not included.
 - added 'ID_TIME_N_DATE'
 - added 'ID_UTIME'
 - added 'ID_NTIME'
+- added 'ID_FLOAT'
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
@@ -25,6 +26,7 @@ Changes in '#include's due to file name changes are not included.
 - added 'TIME&DATE' word
 - added 'UTIME' word
 - added 'NTIME' word
+- added 'FOAT' word
 - made ffIncludeFile work with ex_include_dirs.c
 - made it so that on error is thrown on BYE
 
@@ -38,6 +40,7 @@ Changes in '#include's due to file name changes are not included.
 - added case for token 'ID_TIME_N_DATE'
 - added case for token 'ID_UTIME'
 - added case for token 'ID_NTIME'
+- added case for token 'ID_FLOAT'
 - replaced FileStream with OpenedFile
 
 ## csrc/excustom.c
@@ -79,6 +82,7 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_system.fth
 - moved MOVE here
 - made include search in specific prefixes
+- FALIGNED, DFALIGNED, SFALIGNED
 
 ## fth/ex_os.fth
 - all the OS words
@@ -103,6 +107,9 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_strings
 - additional string words
 - C>FTH, FTH>C
+
+## fth/ex_structure
+- more FIELD: words
 
 ## fth/mkdicdat.fth
 - added bye, so it doesn't exit to REPL mid compiling

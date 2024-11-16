@@ -14,7 +14,7 @@
 \ CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 \ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-anew task-structure.fth
+anew task-ex_structure.fth
 
 : BEGIN-STRUCTURE ( "<spaces>name" -- struct-sys 0 , start the definition of a structure )
     CREATE
@@ -38,3 +38,24 @@ anew task-structure.fth
 : CFIELD:   ( n1 "name" -- n2 ; addr1 -- addr2 )
     1 CHARS   +FIELD
 ;
+
+: 2field: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  aligned 2 cells +field ;
+
+: ffield: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  faligned 1 floats +field ;
+
+: dffield: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  dfaligned 1 floats +field ;
+
+: sffield: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  sfaligned 1 floats +field ;
+
+: wfield: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  2 +field ;
+
+: lfield: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  4 +field ;
+
+: xfield: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  8 +field ;

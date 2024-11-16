@@ -9,8 +9,7 @@ with the added ability to have C bindings.
 ### todo
 - make including libs work
     - Windows support
-- remake shell exec to match that of Gforth (getenv, GFORTHSYSTEMPREFIX)
-- add Gforth-like binding gen syntax (in progress)
+- remake shell exec to match that of Gforth (GFORTHSYSTEMPREFIX)
 - rebrand user facing stuff
 - some inclusion testing for edge cases
 - DOCS

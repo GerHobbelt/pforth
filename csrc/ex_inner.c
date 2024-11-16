@@ -2010,6 +2010,11 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             }
             endcase;
 
+        case ID_FLOAT:
+            M_PUSH( TOS );
+            TOS = sizeof(PF_FLOAT);
+            endcase;
+
         default:
             ERR("pfCatch: Unrecognised token = 0x");
             ffDotHex(Token);

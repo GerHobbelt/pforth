@@ -362,6 +362,7 @@ enum cforth_primitive_ids
     ID_TIME_N_DATE,
     ID_UTIME,
     ID_NTIME,
+    ID_FLOAT,
 #endif
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */
