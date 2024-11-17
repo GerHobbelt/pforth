@@ -142,12 +142,27 @@ if.forgotten lv.term
     THEN
 ;
 
-: VALUE
-    CREATE ( n <name> )
-        ,
-    DOES>
-        @
+\ store additional information about the value
+\ this makes TO no longer usable on VARIABLE
+\ TODO: somehow solve the non-float compil support
+
+: F, here float allot f! ;
+: F+! dup f@ f+ f! ;
+
+: VALUE ( n <name> )
+  create
+    0 , ,
+  does>
+    cell + @
 ;
+
+: FVALUE ( n <name> )
+  create
+    1 , f,
+  does>
+    cell + f@
+;
+    
 
 : TO  ( val <name> -- )
     bl word
@@ -158,13 +173,26 @@ if.forgotten lv.term
         find
         0= abort" not found"
         >body  \ point to data
+        dup cell + swap @ \ point to real data + type
         state @
-        IF  \ compiling  ( -- pfa )
-            [compile] aliteral
-            compile !
-        ELSE \ executing  ( -- val pfa )
-            !
-        THEN
+        swap case
+          0 of \ VALUE
+            IF  \ compiling  ( -- pfa )
+                [compile] aliteral
+                compile !
+            ELSE \ executing  ( -- val pfa )
+                !
+            THEN
+          endof
+          1 of \ FVALUE
+            IF  \ compiling  ( -- pfa )
+                [compile] aliteral
+                compile f!
+            ELSE \ executing  ( -- val pfa )
+                f!
+            THEN
+          endof
+        endcase
     THEN
 ; immediate
 
@@ -178,13 +206,26 @@ if.forgotten lv.term
         find
         0= abort" not found"
         >body  \ point to data
+        dup cell + swap @ \ point to real data + type
         state @
-        IF  \ compiling  ( -- pfa )
-            [compile] aliteral
-            compile +!
-        ELSE \ executing  ( -- val pfa )
-            +!
-        THEN
+        swap case
+          0 of \ VALUE
+            IF  \ compiling  ( -- pfa )
+                [compile] aliteral
+                compile +!
+            ELSE \ executing  ( -- val pfa )
+                +!
+            THEN
+          endof
+          1 of \ FVALUE
+            IF  \ compiling  ( -- pfa )
+                [compile] aliteral
+                compile f+!
+            ELSE \ executing  ( -- val pfa )
+                f+!
+            THEN
+          endof
+        endcase
     THEN
 ; immediate
 

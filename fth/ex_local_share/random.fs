@@ -3,14 +3,14 @@
 
 variable seed
 
-: seed! ( n -- ) seed ! ;
-: seed-init ( -- ) ntime drop seed ! ;
+: SEED! ( n -- ) seed ! ;
+: SEED-INIT ( -- ) ntime drop seed ! ;
 
 \ https://en.wikipedia.org/wiki/Linear_congruential_generator
-: rnd ( -- n )
+: RND ( -- n )
   \ Musl values
   #6364136223846793005 seed @ * 1+ \ natural overflow as modulus
   dup seed ! ;
-: random ( n -- 0..n-1 ) rnd swap mod abs ;
+: RANDOM ( n -- 0..n-1 ) rnd swap mod abs ;
 
 seed-init

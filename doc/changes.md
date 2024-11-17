@@ -82,7 +82,6 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_system.fth
 - moved MOVE here
 - made include search in specific prefixes
-- FALIGNED, DFALIGNED, SFALIGNED
 
 ## fth/ex_os.fth
 - all the OS words
@@ -100,6 +99,9 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/ex_ansilocs
 - added +TO
+- added F,
+- added F+!
+- added FVALUE
 
 ## fth/ex_local_share/random.fs
 - pseudorandom number generator
@@ -110,6 +112,10 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/ex_structure
 - more FIELD: words
+
+## fth/ex_floats
+- DFALIGN, SFALIGN, DFALIGNED, SFALIGNED
+- DFFIELD, SFFIELD
 
 ## fth/mkdicdat.fth
 - added bye, so it doesn't exit to REPL mid compiling

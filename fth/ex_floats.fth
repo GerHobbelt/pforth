@@ -33,6 +33,27 @@ ANEW TASK-FLOATS.FTH
     dp @ faligned dp !
 ;
 
+\ At least I hope this is how this works...
+: DFALIGNED  ( addr -- a-addr )
+    8 1- +
+    8 /
+    8 *
+;
+
+: DFALIGN    ( -- , align DP )
+    dp @ dfaligned dp !
+;
+
+: SFALIGNED  ( addr -- a-addr )
+    4 1- +
+    4 /
+    4 *
+;
+
+: SFALIGN    ( -- , align DP )
+    dp @ sfaligned dp !
+;
+
 \ account for size of create when aligning floats
 here
 create fp-create-size
@@ -68,6 +89,12 @@ fp-create-size swap - constant CREATE_SIZE
 : FFIELD:   ( n1 "name" -- n2 ; addr1 -- addr2 )
     FALIGNED 1 FLOATS +FIELD
 ;
+
+: DFFIELD: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  dfaligned 1 floats +field ;
+
+: SFFIELD: ( n1 "name" -- n2 ; addr1 -- addr2 )
+  sfaligned 1 floats +field ;
 
 \ Convert between single precision integer and floating point
 : S>F ( s -- ) ( F: -- r )

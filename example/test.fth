@@ -70,4 +70,13 @@ seed @ . cr
 
 print-random
 
+." ------VALUES------" cr
+4 value int-val
+4e fvalue float-val
+int-val . float-val f. cr
+
+5 +to int-val
+3.4 +to float-val
+int-val . float-val f. cr
+
 bye

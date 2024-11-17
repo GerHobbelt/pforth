@@ -35,7 +35,7 @@ include? s\"     slashqt.fth
 
 \ load floating point support if basic support is in kernel
 exists? F*
-   [IF]  include? task-floats.fth floats.fth
+   [IF]  include? task-floats.fth ex_floats.fth
    [THEN]
 
 \ useful but optional stuff follows --------------------

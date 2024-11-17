@@ -1,24 +1,24 @@
 anew task-ex_os.fth
 
-: windows? ( -- f )
+: WINDOWS? ( -- f )
   os-id 0 = ;
 
-: linux? ( -- f )
+: LINUX? ( -- f )
   os-id 1 = ;
 
-: apple? ( -- f )
+: APPLE? ( -- f )
   os-id 2 = ;
 
-: freebsd? ( -- f )
+: FREEBSD? ( -- f )
   os-id 3 = ;
 
-: netbsd? ( -- f )
+: NETBSD? ( -- f )
   os-id 4 = ;
 
-: openbsd? ( -- f )
+: OPENBSD? ( -- f )
   os-id 5 = ;
 
-: unix? ( -- f )
+: UNIX? ( -- f )
   os-id 10 =
   linux? or
   freebsd? or

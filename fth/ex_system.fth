@@ -133,19 +133,7 @@
         [ cell 1- ] literal +
         [ cell 1- invert ] literal and
 ;
-\ At least I hope this is how this works...
-: faligned  ( addr -- a-addr )
-        [ float 1- ] literal +
-        [ float 1- invert ] literal and
-;
-: dfaligned  ( addr -- a-addr )
-        [ 8 1- ] literal +
-        [ 8 1- invert ] literal and
-;
-: sfaligned  ( addr -- a-addr )
-        [ 4 1- ] literal +
-        [ 4 1- invert ] literal and
-;
+
 : ALIGN ( -- , align DP )  dp @ aligned dp ! ;
 : ALLOT ( nbytes -- , allot space in dictionary ) dp +! ( align ) ;
 
