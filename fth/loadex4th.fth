@@ -42,7 +42,7 @@ exists? F*
 
 include? task-member.fth   member.fth
 include? :struct c_struct.fth
-include? smif{   smart_if.fth
+include? smif{   ex_smart_if.fth
 include? file?   filefind.fth
 include? see     see.fth
 include? words.like wordslik.fth

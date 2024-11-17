@@ -1475,29 +1475,29 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
 
         case ID_PLUSLOOP_P: /* ( delta -- ) ( R: index limit -- | index limit ) */
             {
-		cell_t Limit = M_R_POP;
-		cell_t OldIndex = M_R_POP;
-		cell_t Delta = TOS; /* add TOS to index, not 1 */
-		cell_t NewIndex = OldIndex + Delta;
-		cell_t OldDiff = OldIndex - Limit;
+              cell_t Limit = M_R_POP;
+              cell_t OldIndex = M_R_POP;
+              cell_t Delta = TOS; /* add TOS to index, not 1 */
+              cell_t NewIndex = OldIndex + Delta;
+              cell_t OldDiff = OldIndex - Limit;
 
-		/* This exploits this idea (lifted from Gforth):
-		   (x^y)<0 is equivalent to (x<0) != (y<0) */
-                if( ((OldDiff ^ (OldDiff + Delta)) /* is the limit crossed? */
-		     & (OldDiff ^ Delta))          /* is it a wrap-around? */
-		    < 0 )
-		{
-                    InsPtr++;   /* skip branch offset, exit loop */
-                }
-                else
-                {
-/* Push index and limit back to R */
-                    M_R_PUSH( NewIndex );
-                    M_R_PUSH( Limit );
-/* Branch back to just after (DO) */
-                    M_BRANCH;
-                }
-                M_DROP;
+              /* This exploits this idea (lifted from Gforth):
+                 (x^y)<0 is equivalent to (x<0) != (y<0) */
+              if( ((OldDiff ^ (OldDiff + Delta)) /* is the limit crossed? */
+                   & (OldDiff ^ Delta))          /* is it a wrap-around? */
+                   < 0 )
+              {
+                InsPtr++;   /* skip branch offset, exit loop */
+              }
+              else
+              {
+                /* Push index and limit back to R */
+                M_R_PUSH( NewIndex );
+                M_R_PUSH( Limit );
+                /* Branch back to just after (DO) */
+                M_BRANCH;
+              }
+              M_DROP;
             }
             endcase;
 
@@ -1505,8 +1505,8 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             Scratch = M_POP;  /* limit */
             if( Scratch == TOS )
             {
-/* Branch to just after (LOOP) */
-                M_BRANCH;
+              /* Branch to just after (LOOP) */
+              M_BRANCH;
             }
             else
             {
@@ -2013,6 +2013,34 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         case ID_FLOAT:
             M_PUSH( TOS );
             TOS = sizeof(PF_FLOAT);
+            endcase;
+
+        case ID_MINUSLOOP_P:
+            {
+              cell_t Limit = M_R_POP;
+              cell_t OldIndex = M_R_POP;
+              cell_t Delta = TOS; /* add TOS to index, not 1 */
+              cell_t NewIndex = OldIndex - Delta;
+              cell_t OldDiff = Limit - OldIndex;
+
+              /* This exploits this idea (lifted from Gforth):
+                 (x^y)<0 is equivalent to (x<0) != (y<0) */
+              if( ((OldDiff ^ (OldDiff + Delta)) /* is the limit crossed? */
+                   & (OldDiff ^ Delta))          /* is it a wrap-around? */
+                   < 0 )
+              {
+                InsPtr++;   /* skip branch offset, exit loop */
+              }
+              else
+              {
+                /* Push index and limit back to R */
+                M_R_PUSH( NewIndex );
+                M_R_PUSH( Limit );
+                /* Branch back to just after (DO) */
+                M_BRANCH;
+              }
+              M_DROP;
+            }
             endcase;
 
         default:

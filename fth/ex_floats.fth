@@ -21,7 +21,7 @@
 \ 19980812 PLB Now don't drop 0.0 in REPRESENT to fix  0.0 F.  (!!!)
 \              Fixed F~ by using (F.EXACTLY)
 
-ANEW TASK-FLOATS.FTH
+ANEW ex_TASK-FLOATS.FTH
 
 : FALIGNED  ( addr -- a-addr )
     1 floats 1- +

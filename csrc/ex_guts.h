@@ -363,6 +363,7 @@ enum cforth_primitive_ids
     ID_UTIME,
     ID_NTIME,
     ID_FLOAT,
+    ID_MINUSLOOP_P,
 #endif
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */

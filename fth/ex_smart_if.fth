@@ -19,7 +19,7 @@
 \ CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 \ OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 
-anew task-smart_if.fth
+anew ex_task-smart_if.fth
 
 variable SMIF-XT    \ execution token for conditional code
 variable SMIF-DEPTH \ depth of nested conditionals
@@ -58,3 +58,4 @@ variable SMIF-DEPTH \ depth of nested conditionals
 : UNTIL   postpone until   }smif  ; immediate
 : LOOP    postpone loop    }smif  ; immediate
 : +LOOP   postpone +loop   }smif  ; immediate
+: -LOOP   postpone -loop   }smif  ; immediate

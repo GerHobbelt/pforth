@@ -79,4 +79,9 @@ int-val . float-val f. cr
 3.4 +to float-val
 int-val . float-val f. cr
 
+\ wait, I can do this?
+0 10 do
+  i .
+1 -loop
+
 bye

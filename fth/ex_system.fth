@@ -521,6 +521,11 @@ ustack 0stackp
    loop-forward loop-back
 ; immediate
 
+: -LOOP    ( -- , loop-back do_flag jump-from ?do_flag )
+   compile  (-loop)
+   loop-forward loop-back
+; immediate
+
 : UNLOOP ( loop-sys -r- )
         r> \ save return pointer
         rdrop rdrop

@@ -15,6 +15,7 @@ Changes in '#include's due to file name changes are not included.
 - added 'ID_UTIME'
 - added 'ID_NTIME'
 - added 'ID_FLOAT'
+- added 'ID_MINUSLOOP_P'
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
@@ -27,6 +28,7 @@ Changes in '#include's due to file name changes are not included.
 - added 'UTIME' word
 - added 'NTIME' word
 - added 'FOAT' word
+- added '(-LOOP)' word
 - made ffIncludeFile work with ex_include_dirs.c
 - made it so that on error is thrown on BYE
 
@@ -41,6 +43,7 @@ Changes in '#include's due to file name changes are not included.
 - added case for token 'ID_UTIME'
 - added case for token 'ID_NTIME'
 - added case for token 'ID_FLOAT'
+- added case for token 'ID_MINUSLOOP_P'
 - replaced FileStream with OpenedFile
 
 ## csrc/excustom.c
@@ -82,6 +85,10 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_system.fth
 - moved MOVE here
 - made include search in specific prefixes
+- -LOOP
+
+## fth/ex_smart_if.fth
+- -LOOP wrap
 
 ## fth/ex_os.fth
 - all the OS words
