@@ -94,6 +94,11 @@ void WriteFloatBigEndian( PF_FLOAT *addr, PF_FLOAT data );
 PF_FLOAT ReadFloatBigEndian( const PF_FLOAT *addr );
 void WriteFloatLittleEndian( PF_FLOAT *addr, PF_FLOAT data );
 PF_FLOAT ReadFloatLittleEndian( const PF_FLOAT *addr );
+
+void WriteSFloatBigEndian( float *addr, float data );
+PF_FLOAT ReadSFloatBigEndian( const float *addr );
+void WriteSFloatLittleEndian( float *addr, float data );
+PF_FLOAT ReadSFloatLittleEndian( const float *addr );
 #endif
 
 #ifdef __cplusplus

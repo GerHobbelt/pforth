@@ -364,6 +364,8 @@ enum cforth_primitive_ids
     ID_NTIME,
     ID_FLOAT,
     ID_MINUSLOOP_P,
+    ID_FP_SF_STORE,
+    ID_FP_SF_FETCH,
 #endif
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */
@@ -528,30 +530,36 @@ extern cell_t         gIncludeIndex;
 
 #if defined(PF_BIG_ENDIAN_DIC)
 
-#define WRITE_FLOAT_DIC             WriteFloatBigEndian
-#define WRITE_CELL_DIC(addr,data)   WriteCellBigEndian((uint8_t *)(addr),(ucell_t)(data))
-#define WRITE_SHORT_DIC(addr,data)  Write16BigEndian((uint8_t *)(addr),(uint16_t)(data))
-#define READ_FLOAT_DIC              ReadFloatBigEndian
-#define READ_CELL_DIC(addr)         ReadCellBigEndian((const uint8_t *)(addr))
-#define READ_SHORT_DIC(addr)        Read16BigEndian((const uint8_t *)(addr))
+#define WRITE_FLOAT_DIC              WriteFloatBigEndian
+#define WRITE_SFLOAT_DIC             WriteSFloatBigEndian
+#define WRITE_CELL_DIC(addr,data)    WriteCellBigEndian((uint8_t *)(addr),(ucell_t)(data))
+#define WRITE_SHORT_DIC(addr,data)   Write16BigEndian((uint8_t *)(addr),(uint16_t)(data))
+#define READ_FLOAT_DIC               ReadFloatBigEndian
+#define READ_SFLOAT_DIC              ReadSFloatBigEndian
+#define READ_CELL_DIC(addr)          ReadCellBigEndian((const uint8_t *)(addr))
+#define READ_SHORT_DIC(addr)         Read16BigEndian((const uint8_t *)(addr))
 
-#elif defined(PF_LITTLE_ENDIAN_DIC)
+#elif defined(PF_LITTLE_ENDIAN_DIC) 
 
-#define WRITE_FLOAT_DIC             WriteFloatLittleEndian
-#define WRITE_CELL_DIC(addr,data)   WriteCellLittleEndian((uint8_t *)(addr),(ucell_t)(data))
-#define WRITE_SHORT_DIC(addr,data)  Write16LittleEndian((uint8_t *)(addr),(uint16_t)(data))
-#define READ_FLOAT_DIC              ReadFloatLittleEndian
-#define READ_CELL_DIC(addr)         ReadCellLittleEndian((const uint8_t *)(addr))
-#define READ_SHORT_DIC(addr)        Read16LittleEndian((const uint8_t *)(addr))
+#define WRITE_FLOAT_DIC              WriteFloatLittleEndian
+#define WRITE_SFLOAT_DIC             WriteSFloatLittleEndian
+#define WRITE_CELL_DIC(addr,data)    WriteCellLittleEndian((uint8_t *)(addr),(ucell_t)(data))
+#define WRITE_SHORT_DIC(addr,data)   Write16LittleEndian((uint8_t *)(addr),(uint16_t)(data))
+#define READ_FLOAT_DIC               ReadFloatLittleEndian
+#define READ_SFLOAT_DIC              ReadSFloatLittleEndian
+#define READ_CELL_DIC(addr)          ReadCellLittleEndian((const uint8_t *)(addr))
+#define READ_SHORT_DIC(addr)         Read16LittleEndian((const uint8_t *)(addr))
 
 #else
 
-#define WRITE_FLOAT_DIC(addr,data)  { *((PF_FLOAT *)(addr)) = (PF_FLOAT)(data); }
-#define WRITE_CELL_DIC(addr,data)   { *((cell_t *)(addr)) = (cell_t)(data); }
-#define WRITE_SHORT_DIC(addr,data)  { *((int16_t *)(addr)) = (int16_t)(data); }
-#define READ_FLOAT_DIC(addr)        ( *((PF_FLOAT *)(addr)) )
-#define READ_CELL_DIC(addr)         ( *((const ucell_t *)(addr)) )
-#define READ_SHORT_DIC(addr)        ( *((const uint16_t *)(addr)) )
+#define WRITE_FLOAT_DIC(addr,data)   { *((PF_FLOAT *)(addr)) = (PF_FLOAT)(data); }
+#define WRITE_SFLOAT_DIC(addr,data)  { *((float *)(addr)) = (float)(data); }
+#define WRITE_CELL_DIC(addr,data)    { *((cell_t *)(addr)) = (cell_t)(data); }
+#define WRITE_SHORT_DIC(addr,data)   { *((int16_t *)(addr)) = (int16_t)(data); }
+#define READ_FLOAT_DIC(addr)         ( *((PF_FLOAT *)(addr)) )
+#define READ_SFLOAT_DIC(addr)        ( (PF_FLOAT)*((float *)(addr)) )
+#define READ_CELL_DIC(addr)          ( *((const ucell_t *)(addr)) )
+#define READ_SHORT_DIC(addr)         ( *((const uint16_t *)(addr)) )
 
 #endif
 

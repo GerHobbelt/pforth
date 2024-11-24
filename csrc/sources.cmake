@@ -16,7 +16,7 @@ pf_win32.h
 pf_words.h
 pfcompfp.h
 excompil.h
-pfinnrfp.h
+exinnrfp.h
 pforth.h
 ex_c_stuff.h
 ex_include_dirs.h

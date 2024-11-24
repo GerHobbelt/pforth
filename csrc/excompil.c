@@ -396,6 +396,9 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC( ID_NTIME, "NTIME", 0 );
     CreateDicEntryC( ID_FLOAT, "FLOAT", 0 );
     CreateDicEntryC( ID_MINUSLOOP_P, "(-LOOP)", 0 );
+    CreateDicEntryC( ID_FP_SF_STORE, "SF!", 0 );
+    CreateDicEntryC( ID_FP_SF_FETCH, "SF@", 0 );
+
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
     if( FindSpecialXTs() < 0 ) goto error;

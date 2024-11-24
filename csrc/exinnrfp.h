@@ -1,4 +1,4 @@
-/*  @(#) pfinnrfp.h 98/02/26 1.4 */
+/*  @(#) exinnrfp.h 98/02/26 1.4 */
 /***************************************************************
 ** Compile FP routines.
 ** This file is included from "ex_inner.c"
@@ -339,5 +339,38 @@
         M_DROP;
         break;
 
+    case ID_FP_SF_STORE: /* ( addr -- ) ( F: r -- ) */
+#if (defined(PF_BIG_ENDIAN_DIC) || defined(PF_LITTLE_ENDIAN_DIC))
+        if( IN_CODE_DIC(TOS) )
+        {
+            WRITE_SFLOAT_DIC( (PF_FLOAT *) TOS, FP_TOS );
+        }
+        else
+        {
+            *((float *) TOS) = (float)FP_TOS;
+        }
+#else
+        *((float *) TOS) = (float)FP_TOS;
+#endif
+        M_FP_DROP;      /* drop FP value */
+        M_DROP;         /* drop addr */
+        break;
+
+    case ID_FP_SF_FETCH:  /* ( addr -- ) ( F: -- r ) */
+        PUSH_FP_TOS;
+#if (defined(PF_BIG_ENDIAN_DIC) || defined(PF_LITTLE_ENDIAN_DIC))
+        if( IN_CODE_DIC(TOS) )
+        {
+            FP_TOS = READ_SFLOAT_DIC( (PF_FLOAT *) TOS );
+        }
+        else
+        {
+            FP_TOS = (PF_FLOAT)*((float *) TOS);
+        }
+#else
+        FP_TOS = (PF_FLOAT)*((float *) TOS);
+#endif
+        M_DROP;
+        break;
 
 #endif

@@ -156,11 +156,39 @@ static void ReverseCopyFloat( const PF_FLOAT *src, PF_FLOAT *dst )
 }
 
 /***************************************************************/
+static void ReverseCopySFloat( const float *src, float *dst );
+
+static void ReverseCopySFloat( const float *src, float *dst )
+{
+    int i;
+    unsigned char *d = (unsigned char *) dst;
+    const unsigned char *s = (const unsigned char *) src;
+
+    for( i=0; i<sizeof(float); i++ )
+    {
+        d[i] = s[sizeof(float) - 1 - i];
+    }
+}
+
+/***************************************************************/
 void WriteFloatBigEndian( PF_FLOAT *addr, PF_FLOAT data )
 {
     if( IsHostLittleEndian() )
     {
         ReverseCopyFloat( &data, addr );
+    }
+    else
+    {
+        *addr = data;
+    }
+}
+
+/***************************************************************/
+void WriteSFloatBigEndian( float *addr, float data )
+{
+    if( IsHostLittleEndian() )
+    {
+        ReverseCopySFloat( &data, addr );
     }
     else
     {
@@ -184,6 +212,21 @@ PF_FLOAT ReadFloatBigEndian( const PF_FLOAT *addr )
 }
 
 /***************************************************************/
+PF_FLOAT ReadSFloatBigEndian( const float *addr )
+{
+    float data;
+    if( IsHostLittleEndian() )
+    {
+        ReverseCopySFloat( addr, &data );
+        return (PF_FLOAT)data;
+    }
+    else
+    {
+        return (PF_FLOAT)*addr;
+    }
+}
+
+/***************************************************************/
 void WriteFloatLittleEndian( PF_FLOAT *addr, PF_FLOAT data )
 {
     if( IsHostLittleEndian() )
@@ -193,6 +236,19 @@ void WriteFloatLittleEndian( PF_FLOAT *addr, PF_FLOAT data )
     else
     {
         ReverseCopyFloat( &data, addr );
+    }
+}
+
+/***************************************************************/
+void WriteSFloatLittleEndian( float *addr, float data )
+{
+    if( IsHostLittleEndian() )
+    {
+        *addr = data;
+    }
+    else
+    {
+        ReverseCopySFloat( &data, addr );
     }
 }
 
@@ -208,6 +264,21 @@ PF_FLOAT ReadFloatLittleEndian( const PF_FLOAT *addr )
     {
         ReverseCopyFloat( addr, &data );
         return data;
+    }
+}
+
+/***************************************************************/
+PF_FLOAT ReadSFloatLittleEndian( const float *addr )
+{
+    float data;
+    if( IsHostLittleEndian() )
+    {
+        return (PF_FLOAT)*addr;
+    }
+    else
+    {
+        ReverseCopySFloat( addr, &data );
+        return (PF_FLOAT)data;
     }
 }
 

@@ -1225,7 +1225,7 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             }
             endcase;
 
-#include "pfinnrfp.h"
+#include "exinnrfp.h"
 
         case ID_HERE:
             PUSH_TOS;

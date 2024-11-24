@@ -16,6 +16,9 @@ Changes in '#include's due to file name changes are not included.
 - added 'ID_NTIME'
 - added 'ID_FLOAT'
 - added 'ID_MINUSLOOP_P'
+- added 'ID_FP_SF_STORE'
+- added 'ID_FP_SF_FETCH'
+- added the 'SFLOAT' macros
 
 ## csrc/excompil.c
 - added 'INCLUDE-CLIB' word
@@ -27,10 +30,12 @@ Changes in '#include's due to file name changes are not included.
 - added 'TIME&DATE' word
 - added 'UTIME' word
 - added 'NTIME' word
-- added 'FOAT' word
+- added 'FLOAT' word
 - added '(-LOOP)' word
 - made ffIncludeFile work with ex_include_dirs.c
 - made it so that on error is thrown on BYE
+- added 'SF!' word
+- added 'SF@' word
 
 ## csrc/ex_inner.c
 - added case for token 'ID_INCLUDE_CLIB'
@@ -45,6 +50,10 @@ Changes in '#include's due to file name changes are not included.
 - added case for token 'ID_FLOAT'
 - added case for token 'ID_MINUSLOOP_P'
 - replaced FileStream with OpenedFile
+
+## csrc/exinnrfp.h
+- added case for token 'ID_FP_SF_STORE'
+- added case for token 'ID_FP_SF_FETCH'
 
 ## csrc/excustom.c
 - made CustonFunctionLen mandatory
@@ -71,6 +80,8 @@ Changes in '#include's due to file name changes are not included.
 
 ## csrc/ex_save.c
 - modified to work with OpenedFile
+- added functions for reading and writing single floats in both endians
+- that also includes for reversing
 
 ## fth/loadex4th.fth
 - added ex_os.fth
