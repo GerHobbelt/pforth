@@ -160,4 +160,20 @@ create (LINE-TERMINATOR) \n c,
     THEN
 ;
 
+: EMIT-FILE ( n fileid -- ior )
+  swap pad c! 
+  pad 1 rot write-file
+;
+
+: SLURP-FILE ( c-addr1 u1 -- c-addr2 u2 ) \ requires FREE
+  r/o open-file throw { f }
+  f file-size throw
+  drop \ TODO: add SLURP-FILE double support
+  dup allocate throw
+  dup rot
+  \ u u c-addr
+  f read-file throw
+  f close-file throw
+;
+
 privatize

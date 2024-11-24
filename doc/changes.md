@@ -137,3 +137,7 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/mkdicdat.fth
 - added bye, so it doesn't exit to REPL mid compiling
+
+## fth/ex_file.fth
+- added EMIT-FILE
+- added SLURP-FILE (requires FREE)

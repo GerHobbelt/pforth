@@ -29,7 +29,7 @@ include? fm/mod  math.fth
 include? [if]    condcomp.fth
 include? task-misc2.fth ex_misc2.fth
 include? save-input save-input.fth
-include? read-line  file.fth
+include? read-line  ex_file.fth
 include? require    require.fth
 include? s\"     slashqt.fth
 

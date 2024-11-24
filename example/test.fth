@@ -84,12 +84,17 @@ int-val . float-val f. cr
   i .
 1 -loop
 
-s" -------SF-------" cr
+cr
+." -------SF-------" cr
 
 create sf-storage 8 allot
 
 2.3 5.6 sf-storage 4 + sf! sf-storage sf!
 
 sf-storage sf@ sf-storage 4 + sf@ f. f.
+
+cr cr
+." contents of 'test2.fth':" cr
+s" test2.fth" slurp-file type
 
 bye

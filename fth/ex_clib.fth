@@ -1,7 +1,6 @@
 anew task-ex_clib.fth
 
 \ TODO: add some checks!
-\ TODO: dynamically allocate addWords-body and wrap-words
 
 private{
 
