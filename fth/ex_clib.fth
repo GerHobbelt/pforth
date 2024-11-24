@@ -41,12 +41,12 @@ create compile-command-len 0 ,
 : COMPILE-COMMAND@ ( -- c-addr u )
   compile-command compile-command-len @ ;
 
-create addWords-body 2048 allot \ ~ 25 funcs?
+0 value addWords-body \ allocate at runtime
 create addWords-body-len 0 ,
 : ADDWORDS-BODY@ ( -- c-addr u ) 
   addWords-body addWords-body-len @ ;
 
-create wrap-words 3400 allot
+0 value wrap-words \ allocate at runtime
 create wrap-words-len 0 ,
 : WRAP-WORDS@ ( -- c-addr u ) 
   wrap-words wrap-words-len @ ;
@@ -89,12 +89,6 @@ create wrap-args-len 0 ,
   wrap-args-write
   s\" \n" wrap-args-write ;
 
-s" void addWords(void* fn) {"
-addWords-write-line
-s" af_t af = (af_t) fn;"
-addWords-write-line
-addWords-body-len @ constant addWords-body-base-len
-
 \ \ \ \ \ \
 \ FILE OPS \
 \ \ \ \ \ \ \
@@ -109,16 +103,29 @@ addWords-body-len @ constant addWords-body-base-len
 \ SETUP \
 \ \ \ \ \
 
-: RESET-ALL ( -- )
+: INIT-ALL ( -- )
+  \ average bind +- 120 chars?
+  \ -> 100 funcs = 12_000 chars
+  12000 allocate throw to addWords-body
+  12000 allocate throw to wrap-words
+;
+
+: DEINIT-ALL ( -- )
+  addWords-body free
+  wrap-words free
+
   0 c-name-len !
   0 to lib-fileid
+  0 to wrap-words
   0 wrap-args-len !
+  0 to addWords-body
   0 forth-name-len !
   0 wrap-words-len !
+  0 addWords-body-len !
   0 to current-fun-index
   0 compile-command-len !
   lib-name-base-len lib-name-len !
-  addWords-body-base-len addWords-body-len !
+
 ;
 
 : LIB-NAME! ( c-addr1 u1 -- )
@@ -148,6 +155,11 @@ addWords-body-len @ constant addWords-body-base-len
   lib-write-line
   s" typedef intptr_t c_t;"
   lib-write-line
+
+  s" void addWords(void* fn) {"
+  addWords-write-line
+  s" af_t af = (af_t) fn;"
+  addWords-write-line
 ;
 
 : LIB-END ( -- )
@@ -452,7 +464,7 @@ addWords-body-len @ constant addWords-body-base-len
 
 : C-LIBRARY-NAME ( c-addr u -- )
   \ TODO: check if already compiled
-  reset-all
+  init-all
   unix? if
     s" mkdir ~/.exforth 2> /dev/null" system
   else
@@ -480,6 +492,7 @@ addWords-body-len @ constant addWords-body-base-len
 
   lib-name@ 1+ include-clib
   wrap-words@ evaluate
+  deinit-all
 ;
 
 privatize

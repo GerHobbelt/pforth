@@ -787,7 +787,8 @@ create (include-prefixes) (include-prefixes-elems) cells allot
         2dup r/o open-file
 
         \ try open with paths
-        (include-prefixes-elems) 0 do
+        ( c-addr u1 fileid1 ior1 -- c-addr u1 fileid2 ior2 )
+        (include-prefixes-elems) 0 ?do
           dup if
             drop drop
 
