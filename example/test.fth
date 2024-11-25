@@ -95,6 +95,16 @@ sf-storage sf@ sf-storage 4 + sf@ f. f.
 
 cr cr
 ." contents of 'test2.fth':" cr
+
+-1 alter-path! \ custom variable used to toggle between paths relative to
+                \ the user and to current file
 s" test2.fth" slurp-file type
+
+0 alter-path!
+
+." -------------------------" cr
+
+sourcefilename 2dup type cr
+dirname type
 
 bye

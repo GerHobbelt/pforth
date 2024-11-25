@@ -83,7 +83,7 @@ void addDir(OpenedFile* descriptor) {
 
   if (CurrentPathsLen == 32) return;
 
-  if (isAbsolute(dir) || CurrentPathsLen == 0) {
+  if (isAbsolute(dir) || CurrentPathsLen == 0 || !alterPath) {
     // just duplicate and save
     new = malloc((dirSize+1)*sizeof(char));
     memcpy(new, dir, dirSize+1);
@@ -116,4 +116,12 @@ void setCurrentFilename(const char* name) {
 
 char* getCurrentFilename(void) {
   return currentFilename;
+}
+
+char* getDirName(const char* path, char* buff) {
+  baseDir(path, buff);
+  int len = strlen(buff);
+  buff[len] = '/';
+  buff[len+1] = '\0';
+  return buff;
 }

@@ -1959,9 +1959,13 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
         
         case ID_DIRNAME: // ( c-addr1 u1 -- c-addr2 u2 )
 
-            interpretStringToC(gScratch, (char*)M_POP, TOS);
-            TOS = strlen(gScratch);
-            M_PUSH(gScratch);
+            {
+              char* pad = (char*)CODE_HERE + 128; // basically pad, see:
+                                                  // fth/ex_system.fth
+              getDirName(interpretStringToC(gScratch, (char*)M_POP, TOS), pad);
+              TOS = strlen(pad);
+              M_PUSH((cell_t)pad);
+            }
 
             endcase;
 
@@ -2041,6 +2045,17 @@ DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
               }
               M_DROP;
             }
+            endcase;
+
+        case ID_ALTER_PATH_STORE: // ( f -- )
+            alterPathPrev = alterPath;
+            alterPath = TOS;
+            M_DROP;
+            endcase;
+
+        case ID_ALTER_PATH_FETCH: // ( -- f )
+            PUSH_TOS;
+            TOS = alterPath;
             endcase;
 
         default:

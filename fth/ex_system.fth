@@ -784,6 +784,10 @@ create (include-prefixes) (include-prefixes-elems) cells allot
         THEN
         here >r
 
+        \ enable address relative to file
+        \ alter-path @ >r
+        -1 alter-path!
+
         2dup r/o open-file
 
         \ try open with paths
@@ -808,6 +812,7 @@ create (include-prefixes) (include-prefixes-elems) cells allot
 		-rot include.mark.start
                 depth >r
                 include-file    \ will also close the file
+                                \ and also return prev alter-path
                 depth 1+ r> -
                 IF
                         ." Warning: stack depth changed during include!" cr

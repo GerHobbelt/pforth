@@ -398,6 +398,8 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC( ID_MINUSLOOP_P, "(-LOOP)", 0 );
     CreateDicEntryC( ID_FP_SF_STORE, "SF!", 0 );
     CreateDicEntryC( ID_FP_SF_FETCH, "SF@", 0 );
+    CreateDicEntryC( ID_ALTER_PATH_STORE, "ALTER-PATH!", 0 );
+    CreateDicEntryC( ID_ALTER_PATH_FETCH, "ALTER-PATH@", 0 );
 
 
     pfDebugMessage("pfBuildDictionary: FindSpecialXTs\n");
@@ -962,14 +964,20 @@ ThrowCode ffIncludeFile( OpenedFile *InputFile )
 {
     ThrowCode exception;
     char buff[256];
+    char prevName[256];
 
     // set filename stuff
-    getPath(InputFile->name, buff);
+    if (alterPath)
+      getPath(InputFile->name, buff);
+    else
+      pfCopyMemory(buff, InputFile->name, strlen(InputFile->name)+1);
 
-    char* prevName = getCurrentFilename();
+    pfCopyMemory(prevName, getCurrentFilename(),
+                 strlen(getCurrentFilename())+1);
     setCurrentFilename(buff);
 
     addDir(InputFile);
+    alterPath = alterPathPrev;
 
 /* Push file stream. */
     exception = ffPushInputStream( InputFile->fs );

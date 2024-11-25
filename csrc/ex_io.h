@@ -90,6 +90,8 @@ typedef struct OpenedFile {
    char name[256];
 } OpenedFile;
 
+extern cell_t alterPath;
+extern cell_t alterPathPrev;
 OpenedFile *sdOpenFile( const char *FileName, const char *Mode );
 cell_t sdCloseFile( OpenedFile * Stream );
 #ifdef PF_NO_FILEIO

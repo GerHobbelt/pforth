@@ -152,6 +152,10 @@ gotline:
 /***********************************************************************************/
 /*********** File I/O **************************************************************/
 /***********************************************************************************/
+
+cell_t alterPath = 0;
+cell_t alterPathPrev = 0;
+
 OpenedFile *sdOpenFile( const char *FileName, const char *Mode )
 {
 #ifdef PF_NO_FILEIO
@@ -161,7 +165,12 @@ OpenedFile *sdOpenFile( const char *FileName, const char *Mode )
     return NULL;
 #else
     char buff[256];
-    FILE* file = fopen(getPath(FileName, buff), Mode);
+
+    FILE* file;
+    if (alterPath)
+      file = fopen(getPath(FileName, buff), Mode);
+    else
+      file = fopen(FileName, Mode);
     if (file == NULL) return NULL;
 
     OpenedFile* new = malloc(sizeof(OpenedFile));

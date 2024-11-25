@@ -110,8 +110,8 @@ create wrap-args-len 0 ,
 ;
 
 : DEINIT-ALL ( -- )
-  addWords-body free
-  wrap-words free
+  addWords-body free throw
+  wrap-words free throw
 
   0 c-name-len !
   0 to lib-fileid

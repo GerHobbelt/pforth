@@ -409,6 +409,10 @@ variable FP-OUTPUT-PTR            \ points into FP-OUTPUT-PAD
     cr
 ;
 
+\ for some reason in Gforth and I used it
+: F> ( r r -- f )
+  f< invert ;
+
 \ FP Input ----------------------------------------------------------
 variable FP-REQUIRE-E   \ must we put an E in FP numbers?
 false fp-require-e !   \ violate ANSI !!

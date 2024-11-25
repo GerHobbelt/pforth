@@ -366,6 +366,8 @@ enum cforth_primitive_ids
     ID_MINUSLOOP_P,
     ID_FP_SF_STORE,
     ID_FP_SF_FETCH,
+    ID_ALTER_PATH_STORE,
+    ID_ALTER_PATH_FETCH,
 #endif
 /* Add new IDs by replacing reserved IDs or extending FP routines. */
 /* Do NOT change the order of these IDs or dictionary files will break! */
