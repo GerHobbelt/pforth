@@ -160,7 +160,7 @@ create (LINE-TERMINATOR) \n c,
     THEN
 ;
 
-: EMIT-FILE ( n fileid -- ior )
+: EMIT-FILE ( c fileid -- ior )
   swap pad c! 
   pad 1 rot write-file
 ;
