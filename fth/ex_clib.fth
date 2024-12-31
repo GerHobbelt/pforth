@@ -16,7 +16,7 @@ create lib-name-len 0 ,
   lib-name lib-name-len @ ;
 
 unix? [if]
-  s" echo $HOME/.exforth/" sh-get
+  s" echo $HOME/.local/share/exforth/.clibs" sh-get
     1 - \ newline
     dup constant lib-name-base-len
     lib-name swap move
@@ -465,7 +465,7 @@ create wrap-args-len 0 ,
   \ TODO: check if already compiled
   init-all
   unix? if
-    s" mkdir ~/.exforth 2> /dev/null" system
+    s" mkdir ~/.local/share/exforth/.clibs 2> /dev/null" system
   else
     ." win not supported"
     \ TODO: HERE WILL BE WINDOWS STUFF

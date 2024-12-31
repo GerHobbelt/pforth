@@ -150,3 +150,6 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_file.fth
 - added EMIT-FILE
 - added SLURP-FILE (requires FREE)
+
+## csrc/CMakeList.txt
+- removed '-pedantic'

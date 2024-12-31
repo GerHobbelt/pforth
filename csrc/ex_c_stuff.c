@@ -76,7 +76,6 @@ void addLib(char* libName) {
       initExFT();
    }
 
-   // TODO: make is somehow depend on current file interpreted
    // TODO: add Windows support
    void* handle = dlopen(getPath(libName, libnameBuff), RTLD_LAZY);
    if (handle == NULL) {

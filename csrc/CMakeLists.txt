@@ -22,7 +22,7 @@ else()
         -fsigned-char
         -fno-builtin
         -fno-unroll-loops
-        -pedantic
+        # -pedantic # does not allow dlsym, which is needed for lib inclusion
         -Wcast-qual
         -Wall
         -Werror
