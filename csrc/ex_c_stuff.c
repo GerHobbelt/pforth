@@ -9,7 +9,7 @@ extern CFunc0 CustomFunctionTable[];
 extern size_t CustomFunctionLen;
 size_t ExFTLen = -1;
 
-char libnameBuff[128];
+char libnameBuff[512];
 
 // I need resizable pointer
 CFunc0* ExtendedFunctionTable = CustomFunctionTable;
@@ -18,7 +18,7 @@ char* interpretStringToC(char* dst, const char* src, cell_t dstSize) {
 
     cell_t len;
 
-    len = (cell_t) *src +1;
+    len = strlen(src) + 1;
     /* Make sure the text + NUL can fit. */
     if( len >= dstSize )
     {
