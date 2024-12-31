@@ -31,7 +31,7 @@ include? task-misc2.fth ex_misc2.fth
 include? save-input save-input.fth
 include? read-line  ex_file.fth
 include? require    require.fth
-include? s\"     slashqt.fth
+include? s\"        ex_slashqt.fth
 
 \ load floating point support if basic support is in kernel
 exists? F*

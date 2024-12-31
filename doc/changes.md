@@ -151,5 +151,8 @@ Changes in '#include's due to file name changes are not included.
 - added EMIT-FILE
 - added SLURP-FILE (requires FREE)
 
+## fth/ex_slashqt.fth
+- added '\0' escape so S\"
+
 ## csrc/CMakeList.txt
 - removed '-pedantic'

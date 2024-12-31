@@ -89,6 +89,9 @@ create CRLF$    \ -- addr ; CR/LF as counted string
   over c@ [char] n = if                 \ CR/LF pair? (Windows/DOS only)
     1 /string  crlf$ count r> append  exit
   then
+  over c@ [char] 0 = if                 \ NULL
+    1 /string  0 r> addchar  exit
+  then
   over c@ [char] a [char] z 1+ within if
     over c@ [char] a - EscapeTable + c@  r> addchar
   else
