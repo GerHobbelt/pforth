@@ -1,6 +1,7 @@
 : N>R ( i * n +n -- ) ( R: -- j * x +n )
   dup 0 > if
 
+  \ for some reason all breaks when I use locals
   \ https://forth-standard.org/standard/tools/NtoR
 
   DUP                        \ xn .. x1 N N --
@@ -19,9 +20,6 @@
 ;
 
 : NR> ( -- i * x +n ) ( R: j * x +n -- )
-
-  \ https://forth-standard.org/standard/tools/NRfrom
-
   R> R> SWAP >R DUP
   BEGIN
     DUP

@@ -293,19 +293,19 @@ private{
 
 privatize
 
-: clearstack
+: CLEARSTACK
   depth 0 ?do
     drop
   loop
 ;
 
-: fclearstack
+: FCLEARSTACK
   fdepth 0 ?do
     fdrop
   loop
 ;
 
-: clearstacks
+: CLEARSTACKS
   clearstack
   fclearstack
 ;
