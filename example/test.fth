@@ -107,4 +107,10 @@ s" test2.fth" slurp-file type
 sourcefilename 2dup type cr
 dirname type
 
+sl" yay"
+sl\" !!\tthey\twork\t!!
+sl" ---------------- Strings Literals!! -------------------
+
+cr cr type cr type cr type cr
+
 bye
