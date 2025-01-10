@@ -13,3 +13,10 @@ anew task-ex_facility.fth
     ." H"
   THEN
 ;
+
+UNIX? [IF]
+\ default in misc1.fth
+: PAGE ( -- )
+  s\" \ec" type
+;
+[THEN]
