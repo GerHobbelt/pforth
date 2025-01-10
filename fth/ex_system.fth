@@ -712,6 +712,24 @@ ustack 0stackp
     swap c!
 ;
 
+: string-allot ( c-addr u -- c-addr u )
+  here >r
+
+  dup chars allot
+
+  r> swap
+  \ str here u 
+  2dup >r >r cmove
+  r> r>
+;
+
+: SL" ( "name" -- c-addr u )
+  \ S" is immediate, so I can't call it normally
+  \ so I store it's address and excute it
+  ['] s" execute
+  string-allot
+;
+
 
 \ ANSI word to replace [COMPILE] and COMPILE ----------------
 : POSTPONE  ( <name> -- )
@@ -754,7 +772,7 @@ variable TRACE-INCLUDE
 ;
 
 3 constant (include-prefixes-elems)
-create (include-prefixes) (include-prefixes-elems) cells allot
+create (include-prefixes) (include-prefixes-elems) 2 * cells allot
 
 \ for some reason addresses change later on, so I will store exec tokens
 

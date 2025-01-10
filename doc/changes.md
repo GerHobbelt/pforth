@@ -4,6 +4,9 @@ All changed/added files use 'ex_' prefix instead of the 'pf_' one.
 Header files are renamed to match their files.
 Changes in '#include's due to file name changes are not included.
 
+## csrc/CMakeList.txt
+- removed '-pedantic'
+
 ## csrc/ex_guts.h
 - added 'ID_OS_ID'
 - added 'ID_INCLUDE_CLIB'
@@ -104,7 +107,9 @@ Changes in '#include's due to file name changes are not included.
 ## fth/ex_system.fth
 - moved MOVE here
 - made include search in specific prefixes
-- -LOOP
+- added -LOOP
+- string-allot
+- added sl"
 
 ## fth/ex_smart_if.fth
 - -LOOP wrap
@@ -153,6 +158,4 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/ex_slashqt.fth
 - added '\0' escape so S\"
-
-## csrc/CMakeList.txt
-- removed '-pedantic'
+- added SL\"
