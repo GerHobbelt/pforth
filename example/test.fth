@@ -55,7 +55,7 @@ lib-tst
 ." ---------" cr
 
 utime ntime time&date .s
-drop drop drop drop drop drop drop drop drop drop
+clearstack
 
 s" HOME" getenv type cr
 
@@ -112,5 +112,17 @@ sl\" !!\tthey\twork\t!!
 sl" ---------------- Strings Literals!! -------------------
 
 cr cr type cr type cr type cr
+
+cr
+
+: TNR1 N>R SWAP NR> ;
+1 2 10 20 30 3 TNR1
+.s
+clearstack
+
+: TNR2 N>R N>R SWAP NR> NR> ;
+1 2 10 20 30 3 40 50 2 TNR2
+.s
+clearstack
 
 bye

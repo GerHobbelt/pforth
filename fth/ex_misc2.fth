@@ -292,3 +292,20 @@ private{
 ;
 
 privatize
+
+: clearstack
+  depth 0 ?do
+    drop
+  loop
+;
+
+: fclearstack
+  fdepth 0 ?do
+    fdrop
+  loop
+;
+
+: clearstacks
+  clearstack
+  fclearstack
+;

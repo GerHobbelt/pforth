@@ -103,6 +103,9 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/ex_misc2.fth
 - moved MOVE to ex_system.fth
+- added clearstack
+- added fclearstack
+- added clearstacks
 
 ## fth/ex_system.fth
 - moved MOVE here
