@@ -15,7 +15,7 @@ with the added ability to have C bindings.
 - fix the underflow problems
 - missing standard extensions
     - search
-    - doubble (kinda done (but not really))
+    - doubble (m+ m*/ 2rot 2value)
     - facility (also has parts implemented)
     - tools (some missing)
     - xchar (maybe....)

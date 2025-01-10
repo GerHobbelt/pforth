@@ -55,5 +55,6 @@ include? parse-name ex_parse.fth
 include? system ex_shell.fth
 include? fth>c ex_strings.fth
 include? c-library ex_clib.fth
+include? at-xy ex_facility.fth
 
 map
