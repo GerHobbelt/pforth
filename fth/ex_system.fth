@@ -712,7 +712,7 @@ ustack 0stackp
     swap c!
 ;
 
-: string-allot ( c-addr u -- c-addr u )
+: STRING-SAVE ( c-addr u -- c-addr u )
   here >r
 
   dup chars allot
@@ -727,7 +727,7 @@ ustack 0stackp
   \ S" is immediate, so I can't call it normally
   \ so I store it's address and excute it
   ['] s" execute
-  string-allot
+  string-save
 ;
 
 
@@ -772,9 +772,9 @@ variable TRACE-INCLUDE
 ;
 
 3 constant (include-prefixes-elems)
-create (include-prefixes) (include-prefixes-elems) 2 * cells allot
+create (include-prefixes) (include-prefixes-elems) cells allot
 
-\ for some reason addresses change later on, so I will store exec tokens
+\ I cannot use SL" bacause I need to evaluate $HOME at runtime
 
 :noname s" /usr/local/share/exforth/" ;
 (include-prefixes) !

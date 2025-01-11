@@ -103,16 +103,16 @@ Changes in '#include's due to file name changes are not included.
 
 ## fth/ex_misc2.fth
 - moved MOVE to ex_system.fth
-- added clearstack
-- added fclearstack
-- added clearstacks
+- added CLEARSTACK
+- added FCLEARSTACK
+- added CLEARSTACKS
 
 ## fth/ex_system.fth
 - moved MOVE here
 - made include search in specific prefixes
 - added -LOOP
-- string-allot
-- added sl"
+- added STRING-SAVE
+- added SL"
 
 ## fth/ex_smart_if.fth
 - -LOOP wrap
@@ -124,7 +124,7 @@ Changes in '#include's due to file name changes are not included.
 - all the shell execution words
 - .local include prefix
 
-## fth/ex_tetx.fth
+## fth/ex_parse.fth
 - PARSE-NAME
 - PARSE-LINE
 
@@ -160,8 +160,8 @@ Changes in '#include's due to file name changes are not included.
 - added SLURP-FILE (requires FREE)
 
 ## fth/ex_slashqt.fth
-- added '\0' escape so S\"
-- added SL\"
+- added '\\0' escape so S\\"
+- added SL\\"
 
 ## fth/ex_facility
 - added AT-XY

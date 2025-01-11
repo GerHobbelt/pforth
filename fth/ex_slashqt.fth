@@ -164,9 +164,9 @@ s" /COUNTED-STRING" environment? 0= [if] 256 [then]
   if  postpone sliteral  then
 ; IMMEDIATE
 
-: SL\" ( "string" -- c-addr u )
+: SL\" ( <string> -- c-addr u )
   ['] s\" execute
-  string-allot
+  string-save
 ;
 
 privatize   \ hide the internal words
