@@ -4,7 +4,9 @@ s" libtestlib.so" include-clib
 
 sourcefilename type cr
 
+false alter-path!
 include test2.fth
+cr cr ." alter-path@: " alter-path@ . cr cr
 
 require random.fs
 

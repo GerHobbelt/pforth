@@ -59,7 +59,6 @@ create wrap-args-len 0 ,
 0 constant n
 2 constant a
 3 constant r
-4 constant func
 5 constant void
 6 constant s
 
@@ -307,7 +306,6 @@ create wrap-args-len 0 ,
     dup s" n" text= ?of n endof
     dup s" a" text= ?of a endof
     dup s" r" text= ?of r endof
-    dup s" func" text= ?of func endof
     dup s" void" text= ?of void endof
     dup s" s" text= ?of s endof
     37 throw
@@ -353,17 +351,6 @@ create wrap-args-len 0 ,
 
     2dup str>type
     dup void <> if
-      \ dup dup r = if 
-      \   drop -rot
-      \   transform-to-r
-      \ else
-      \   s = if
-      \     -rot
-      \     transform-to-s
-      \   else
-      \     -rot
-      \   then
-      \ then
       dup case
         r of -rot transform-to-r endof
         s of -rot transform-to-s endof

@@ -27,5 +27,5 @@ unix? [if]
 \ add .local/share/exforth to (INCLUDE-PREFIXES)
 :noname ( -- c-addr u )
   s\" echo \"$HOME/.local/share/exforth/\"" sh-get 1- ; \ newline
-(include-prefixes) 1 cells + !
+(include-prefixes) 2 cells + !
 [then]

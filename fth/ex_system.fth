@@ -771,7 +771,7 @@ variable TRACE-INCLUDE
     " ;;;;" ['] noop (:)
 ;
 
-3 constant (include-prefixes-elems)
+4 constant (include-prefixes-elems)
 create (include-prefixes) (include-prefixes-elems) cells allot
 
 \ I cannot use SL" bacause I need to evaluate $HOME at runtime
@@ -779,11 +779,14 @@ create (include-prefixes) (include-prefixes-elems) cells allot
 :noname s" /usr/local/share/exforth/" ;
 (include-prefixes) !
 
+:noname s" /usr/share/exforth/" ;
+(include-prefixes) !
+
 \ will be filled later in ex_shell.fth
-:noname s" " ; (include-prefixes) 1 cells + !
+:noname s" " ; (include-prefixes) 2 cells + !
 
 :noname s" ../fth/ex_local_share/" ;
-(include-prefixes) 2 cells + !
+(include-prefixes) 3 cells + !
 
 : MOVE ( src dst num -- )
     >r 2dup - 0<
@@ -803,7 +806,7 @@ create (include-prefixes) (include-prefixes-elems) cells allot
         here >r
 
         \ enable address relative to file
-        \ alter-path @ >r
+        \ return to previous is handeled at C level
         -1 alter-path!
 
         2dup r/o open-file

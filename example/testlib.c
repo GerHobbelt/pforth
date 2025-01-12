@@ -8,7 +8,7 @@
 typedef void (*addFunction_t)(void* fn, char* name, int argsNum, int returns);
 typedef intptr_t cell_t;
 
-// define some eample functions
+// define some example functions
 // they can only take and return the 'cell_t' type
 // they don't need to be static
 
