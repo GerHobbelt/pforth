@@ -780,7 +780,7 @@ create (include-prefixes) (include-prefixes-elems) cells allot
 (include-prefixes) !
 
 :noname s" /usr/share/exforth/" ;
-(include-prefixes) !
+(include-prefixes) cell + !
 
 \ will be filled later in ex_shell.fth
 :noname s" " ; (include-prefixes) 2 cells + !
