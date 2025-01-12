@@ -1872,6 +1872,16 @@ DBUGX(("Before 0Branch: IP = 0x%x\n", InsPtr ));
 DBUGX(("After 0Branch: IP = 0x%x\n", InsPtr ));
             endcase;
 
+        case ID_FLAG_SMUDGE:
+            M_PUSH( TOS );
+            TOS = FLAG_SMUDGE;
+            endcase;
+
+        case ID_MASK_NAME_SIZE:
+            PUSH_TOS;
+            TOS = (cell_t) MASK_NAME_SIZE;
+            endcase;
+
         case ID_INCLUDE_CLIB: // ( a u -- )
             interpretStringToC(gScratch, (char*)M_POP, TOS);
             M_DROP;

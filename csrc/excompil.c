@@ -99,7 +99,7 @@ void CreateDicEntry( ExecToken XT, const ForthStringPtr FName, ucell_t Flags )
 */
 void CreateDicEntryC( ExecToken XT, const char *CName, ucell_t Flags )
 {
-    ForthString FName[40];
+    ForthString FName[LONGEST_WORD_NAME+9];    /* +1 for length, up to +9 should not be used, but is here for safety */
     CStringToForth( FName, CName, sizeof(FName) );
     CreateDicEntry( XT, FName, Flags );
 }
@@ -384,6 +384,8 @@ PForthDictionary pfBuildDictionary( cell_t HeaderSize, cell_t CodeSize )
     CreateDicEntryC( ID_WORD_STORE, "W!", 0 );
     CreateDicEntryC( ID_XOR, "XOR", 0 );
     CreateDicEntryC( ID_ZERO_BRANCH, "0BRANCH", 0 );
+    CreateDicEntryC( ID_FLAG_SMUDGE, "FLAG_SMUDGE", 0 );
+    CreateDicEntryC( ID_MASK_NAME_SIZE, "MASK_NAME_SIZE", 0 );
 
     CreateDicEntryC( ID_INCLUDE_CLIB, "INCLUDE-CLIB", 0 );
     CreateDicEntryC( ID_OS_ID, "OS-ID", 0 );
@@ -477,7 +479,7 @@ cell_t ffFindNFA( const ForthString *WordName, const ForthString **NFAPtr )
     cell_t Searching = TRUE;
     cell_t Result = 0;
 
-    WordLen = (uint8_t) ((ucell_t)*WordName & 0x1F);
+    WordLen = (uint8_t) ((ucell_t)*WordName & MASK_NAME_SIZE);
     WordChar = WordName+1;
 
     NameField = (ForthString *) gVarContext;
@@ -670,7 +672,7 @@ void ffStringDefer( const ForthStringPtr FName, ExecToken DefaultXT )
 /* Convert name then create deferred dictionary entry. */
 static void CreateDeferredC( ExecToken DefaultXT, const char *CName )
 {
-    char FName[40];
+    char FName[LONGEST_WORD_NAME+9];    /* +1 for length, up to +9 should not be used, but is here for safety */
     CStringToForth( FName, CName, sizeof(FName) );
     ffStringDefer( FName, DefaultXT );
 }
@@ -1179,7 +1181,7 @@ DBUGX(("readLineFromStream(0x%x, 0x%x, 0x%x)\n", buffer, len, stream ));
     }
 
 /* NUL terminate line to simplify printing when debugging. */
-    if( (len >= 0) && (len < maxChars) ) p[len] = '\0';
+    if( (len >= 0) && (len < maxChars) ) *p = '\0';
 
     return len;
 }
