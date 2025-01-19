@@ -12,7 +12,7 @@ Location of new words can be found
 ## C interop
 
 - INCLUDE-CLIB ( c-addr u -- )
-    - Will load compled binding file
+    - Will load compiled binding file
     - You probably won't need to use this
 
 - C-LIBRARY-NAME ( c-addr u -- )
@@ -41,7 +41,7 @@ Location of new words can be found
 ## OS
 
 - OS-ID ( -- n )
-    - Gives specific ID identifiyng the OS
+    - Gives specific ID identifying the OS
     - You should not have the need to use it directly
 
 - WINDOWS? ( -- f )
@@ -95,7 +95,7 @@ Location of new words can be found
       Store it somewhere (via STRING-SAVE?) if you need to use it after that
 
 - DIRNAME ( c-addr1 u1 -- c-addr2 u2 )
-    - Takes string containg path to a file and returns its parent directory
+    - Takes string containing path to a file and returns its parent directory
 
 - ALTER-PATH! ( f -- )
     - Changes type of path resolution
@@ -126,14 +126,14 @@ Location of new words can be found
     - ALLOTs and stores on float
 
 - F+! ( r a-addr )
-    - Adds r to float stored at a-arrd
+    - Adds r to float stored at a-addr
 
 - FVALUE ( r "name" -- )
     - Line VALUE, but for floats
 
 - F> ( r r -- f )
-    - float greather than
-    - really? this is not in the standard?
+    - float greater than
+    - really? This is not in the standard?
 
 ## UI
 

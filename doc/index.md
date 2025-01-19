@@ -10,7 +10,7 @@ Full list of changes can be found
 
 Ex:forth's C interpolation (like some other parts) is inspired by
 [Gforth](https://gforth.org/).
-While it works completly differently, it's interface is very similar.
+While it works completely differently, it's interface is very similar.
 
 ### generating bindings
 
@@ -29,16 +29,16 @@ They you want to load it into the bindings.
 Think of this block as a C file (to which it also gets turned into).
 You can write a line of C via the \C word. Everything after \C is put
 into the file as is.
-for example, to load stdio, you would write `\C #include <stdio.h>`.
+For example, to load stdio, you would write `\C #include <stdio.h>`.
 
 You can also use \C to write wrapper functions and stuff.
 
 Then you want to generate binding for a function.
-it has the following syntax:
+It has the following syntax:
 `c-function <forth-name> <c-name> <arg-types> -- <return-type>`
 
-Forth name can be any vaid forth word, but I like to prefix it with
-library identifier seperated by doble colon, such as 'M:SIN' for 'sin' function
+Forth name can be any valid forth word, but I like to prefix it with
+library identifier separated by double colon, such as 'M:SIN' for 'sin' function
 from math library or 'RL:INIT-WINDOW' for the 'InitWindow' function from the
 [raylib](https://www.raylib.com/)
 library.
@@ -58,20 +58,20 @@ Arg types are a sequence of 0-15 of the following types:
 - void - nothing
 
 Return type is just a single value, but if the function returns nothing, you
-must privide the void type.
+must provide the void type.
 
 Maximum number of arguments supported is 15.
 Please, don't make C functions that take 15 arguments.
 It's not cool.
 
-Arguments can also be further casted. For example, if your C function reqiures
+Arguments can also be further casted. For example, if your C function requires
 the `Foo` struct, you cannot give it just 'a' (void*).
-After a type (without any whitespace) you can write curly-braces-enclosed
+After a type (without any white space) you can write curly-braces-enclosed
 C typecast that will be applied on the argument in the function call.
 The previous example would look like this: `a{*(Foo*)}`.
 
 Ex:forth also allows you to bind a variable using C-VARIABLE.
-It only takes \<forht-name\> and \<c-name\>.
+It only takes \<forth-name\> and \<c-name\>.
 Resulting word returns pointer to that variable.
 
 You cannot create bindings for structs in this way.
@@ -127,7 +127,7 @@ end-c-library
 ### handwriting bindings
 
 Second approach is to write the C binding directly.
-This approach might be preffered if you wish not only to use existing C library,
+This approach might be preferred if you wish not only to use existing C library,
 but to write entire part of your application in C.
 
 Example binding can be found in
@@ -151,7 +151,7 @@ You could technically do without those, but they do help.
 All your functions that will be exposed to ex:forth should take only
 arguments of `cell_t` type and should return either `void` or `cell_t`.
 In case you need to use floats, ex:forth uses `double`s, which should be the
-same size as `cell_t`, so do some fancy pointercasting.
+same size as `cell_t`, so do some fancy pointer casting.
 You know, the fun part of C.
 
 Once you have your functions defined, write the following function:
@@ -201,7 +201,7 @@ Those are:
 - `~/.local/share/exforth/`
 
 Any other file operation is controlled by ALTER-PATH! and ALTER-PATH@.
-these operate on boolean values:
+These operate on boolean values:
 
 - 0 (default) : relative to user
 - -1 : relative to executed file
@@ -212,12 +212,12 @@ these operate on boolean values:
 Note that pforth does not support dictionaries.
 It instead uses PRIVATE{, }PRIVATE and PRIVATIZE words for keeping
 words in one file.
-When PRIVATIZE is called, all words devined between PRIVATE{ and }PRIVATE
+When PRIVATIZE is called, all words defined between PRIVATE{ and }PRIVATE
 gets removed from the wordlist.
 
 I know that this does technically not solve anything, but it looks nicer
 than without it.
-Dictionaries might get added in the future, but I dont really need them that
+Dictionaries might get added in the future, but I don't really need them that
 much and its not a priority.
 
 ## compatibility breaking changes
@@ -225,5 +225,5 @@ much and its not a priority.
 Due to the addition of FVALUE, I needed to change the structure of VALUE
 as well, so that TO can work on both.
 VALUE now holds both the value and a type identifier.
-This means that you can no longer ues TO words made via VARIABLE and CREATE.
-This might get fixet if I come up with a better solution.
+This means that you can no longer uses TO words made via VARIABLE and CREATE.
+This might get fixed if I come up with a better solution.
