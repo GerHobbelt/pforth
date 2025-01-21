@@ -25,7 +25,7 @@ You add a library to the compiler via ADD-LIB word, which takes a string with
 the name of the library as you would pass it to the compiler '-l' flag
 (which it also does with it).
 
-They you want to load it into the bindings.
+Then you want to load it into the bindings.
 Think of this block as a C file (to which it also gets turned into).
 You can write a line of C via the \C word. Everything after \C is put
 into the file as is.
@@ -83,6 +83,10 @@ Ex:forth even provides you with special Gforth-like words for 16-bit,
 32-bit and 64-bit fields. (viz.
 [words.md](words.md))
 (CFIELD: is used for 8-bit fields)
+
+The final C file only gets recompiled when it is deleted, or when the FORTH file
+with bindings changes.
+Changes in included C libraries are not watched.
 
 Example taken from
 [example/bindings.fth](../example/bindings.fth):
@@ -146,6 +150,7 @@ At first, you will need some definitions:
 typedef void (*addFunction_t)(void* fn, char* name, int argsNum, int returns);
 typedef intptr_t cell_t;
 ```
+
 You could technically do without those, but they do help.
 
 All your functions that will be exposed to ex:forth should take only
@@ -185,6 +190,10 @@ addFunction(&sum, "M:SUM", 2, C_RETURNS_VALUE);
 ```
 
 The forth name should be in all-caps and max number of args is 15.
+
+Then compile the C code with the `-fPIC -shared` flags (or whatever is your
+compilers alternative) and link the outcome file with the INCLUDE-CLIB
+word.
 
 Congratulations, you are now fully qualified to embed lua into FORTH!
 
@@ -227,3 +236,6 @@ as well, so that TO can work on both.
 VALUE now holds both the value and a type identifier.
 This means that you can no longer uses TO words made via VARIABLE and CREATE.
 This might get fixed if I come up with a better solution.
+
+By default, paths are resolved relative to currently executed file.
+This can be changed via the ALTER-PATH! word.

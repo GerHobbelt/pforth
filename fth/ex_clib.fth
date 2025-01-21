@@ -170,7 +170,7 @@ create wrap-args-len 0 ,
 
 : COMMAND-WRITE ( c-addr u -- )
   dup -rot
-  compile-command@ .s + swap move
+  compile-command@ + swap move
   compile-command-len +!
 ;
 
@@ -414,6 +414,40 @@ create wrap-args-len 0 ,
   void <> swap
 ;
 
+unix? [IF] \ *nix
+: RECOMPILE? ( -- f )
+  0 { len }
+  s" [ "
+    dup +to len
+    pad swap move
+  sourcefilename
+    pad len + swap
+    dup +to len
+    move
+  s"  -ot "
+    pad len + swap
+    dup +to len
+    move
+  lib-name@
+    pad len + swap
+    dup +to len
+    move
+  s"  ]"
+    pad len + swap
+    dup +to len
+    move
+
+  pad len system
+  $?
+;
+
+[ELSE] \ Windows
+: RECOMPILE? ( -- f )
+  \ TODO: windows recompile?
+  true
+;
+[THEN]
+
 }private
 
 \ HERE WILL BE WORDSET...
@@ -459,10 +493,17 @@ create wrap-args-len 0 ,
   then
 
   lib-name!
-  \ TODO: check if source newer
+
+  recompile? if
+    command-begin
+  else
+    \ TODO: Windows might require different comments
+    \ depends if powershell is used
+    s" # " command-write
+  then
+
   lib-name@ R/W create-file throw to lib-fileid
   lib-begin
-  command-begin
 ;
 
 : C-LIBRARY ( "name" -- )

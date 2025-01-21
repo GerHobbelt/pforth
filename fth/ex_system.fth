@@ -837,7 +837,6 @@ create (include-prefixes) (include-prefixes-elems) cells allot
                 depth 1+ r> -
                 IF
                         ." Warning: stack depth changed during include!" cr
-                        .s cr
                         0sp
                 THEN
                 include.mark.end
