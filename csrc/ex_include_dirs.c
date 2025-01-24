@@ -45,7 +45,7 @@ static char* pathJoin(const char* p1, const char* p2, char* buff) {
   int p1Len = strlen(p1);
 
   if (isAbsolute(p2) || p1[0] == '\0') {
-    memcpy(buff, p2, strlen(p2)+1);
+    strcpy(buff, p2);
 
   } else {
     memcpy(buff, p1, p1Len);
@@ -121,7 +121,13 @@ char* getCurrentFilename(void) {
 char* getDirName(const char* path, char* buff) {
   baseDir(path, buff);
   int len = strlen(buff);
-  buff[len] = '/';
-  buff[len+1] = '\0';
+
+  if (len != 0) {
+     buff[len] = '/';
+     buff[len+1] = '\0';
+
+  } else {
+     strcpy(buff, "./");
+  }
   return buff;
 }
