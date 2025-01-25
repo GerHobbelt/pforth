@@ -171,7 +171,8 @@ create (LINE-TERMINATOR) \n c,
   drop \ TODO: add SLURP-FILE double support
   dup allocate throw
   dup rot
-  \ u u c-addr
+
+  \ c-addr c-addr u
   f read-file throw
   f close-file throw
 ;
