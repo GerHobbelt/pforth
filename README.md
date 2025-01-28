@@ -115,9 +115,7 @@ I only document the non-standard stuff I added.
 
 ### TODO:
 
-- rebrand user facing stuff
-- make including libs work
-    - Windows support
+- Native Windows support
 - fix the underflow problems
 - missing standard extensions
     - search
