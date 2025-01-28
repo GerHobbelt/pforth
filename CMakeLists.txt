@@ -94,3 +94,8 @@ add_executable(exforth_standalone csrc/pf_main.c)
 target_link_libraries(exforth_standalone ${PROJECT_NAME}_lib_sd ${EXFORTH_EXTRA_LIBS})
 target_compile_definitions(exforth_standalone PRIVATE PF_STATIC_DIC)
 add_dependencies(exforth_standalone exforth_dic_header)
+
+# Once compiled, install
+install(
+   CODE "file(COPY fth/exforth_standalone/ DESTINATION ${CMAKE_INSTALL_PREFIX}/bin/exforth)"
+)

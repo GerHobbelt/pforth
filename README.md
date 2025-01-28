@@ -84,11 +84,23 @@ It is just not my priority right now.
 ## Dependencies
 
 - cmake (building only)
+- make (also building only)
 - gcc (used for bindings)
 
 ## Building
 
+```
+cmake .
 
+# to install globaly
+sudo make install
+
+# or to install locally
+make install/local
+```
+
+This installs the standalone version as `exforth`.
+In case you want the non-standalone version and dict, they are in `fth/`
 
 ## Documentation
 
