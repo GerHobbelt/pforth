@@ -25,24 +25,24 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Put pforth in the fth folder so we can load the Forth code more easily.
-set(PFORTH_FTH_DIR ${CMAKE_SOURCE_DIR}/fth)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PFORTH_FTH_DIR})
+# Put exforth in the fth folder so we can load the Forth code more easily.
+set(EXFORTH_FTH_DIR ${CMAKE_SOURCE_DIR}/fth)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${EXFORTH_FTH_DIR})
 
-project(PForth)
+project(EXForth)
 message("Configuring ${PROJECT_NAME}...")
 enable_testing()
 
 if(WIN32)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
     message("Warning: _CRT_SECURE_NO_WARNINGS")
-    set(PFORTH_EXE Debug/pforth.exe)
-	set(PFORTH_EXTRA_LIBS )
+    set(EXFORTH_EXE Debug/exforth.exe)
+	set(EXFORTH_EXTRA_LIBS )
 endif(WIN32)
 
 if(UNIX OR APPLE)
-    set(PFORTH_EXE pforth)
-	set(PFORTH_EXTRA_LIBS m)
+    set(EXFORTH_EXE exforth)
+	set(EXFORTH_EXTRA_LIBS m)
 endif(UNIX OR APPLE)
 
 add_subdirectory(csrc)
@@ -60,37 +60,37 @@ if(UNISTD)
 	endif(WIN32)
 endif(UNISTD)
 
-# 1. Build pforth executable
-add_executable(pforth csrc/pf_main.c)
-target_link_libraries(pforth ${PROJECT_NAME}_lib ${PFORTH_EXTRA_LIBS})
+# 1. Build exforth executable
+add_executable(exforth csrc/pf_main.c)
+target_link_libraries(exforth ${PROJECT_NAME}_lib ${EXFORTH_EXTRA_LIBS})
 
-# 2. Build pforth.dic by compiling ex_system.fth
-set(PFORTH_DIC "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/pforth.dic")
-add_custom_command(OUTPUT ${PFORTH_DIC}
-  COMMAND ./${PFORTH_EXE} -i ${PFORTH_FTH_DIR}/ex_system.fth
+# 2. Build exforth.dic by compiling ex_system.fth
+set(EXFORTH_DIC "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/exforth.dic")
+add_custom_command(OUTPUT ${EXFORTH_DIC}
+  COMMAND ./${EXFORTH_EXE} -i ${EXFORTH_FTH_DIR}/ex_system.fth
   WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-  DEPENDS pforth
-  COMMENT Building pforth.dic
+  DEPENDS exforth
+  COMMENT Building exforth.dic
   VERBATIM
   )
-add_custom_target(pforth_dic DEPENDS ${PFORTH_DIC})
+add_custom_target(exforth_dic DEPENDS ${EXFORTH_DIC})
 
 # 3. Create a pfdicdat.h header containing a precompiled dictionary
 #    as C source code.
-set(PFORTH_DIC_HEADER "csrc/pfdicdat.h")
-add_custom_command(OUTPUT ${PFORTH_DIC_HEADER}
-  COMMAND ./${PFORTH_EXE} ${PFORTH_FTH_DIR}/mkdicdat.fth
+set(EXFORTH_DIC_HEADER "csrc/pfdicdat.h")
+add_custom_command(OUTPUT ${EXFORTH_DIC_HEADER}
+  COMMAND ./${EXFORTH_EXE} ${EXFORTH_FTH_DIR}/mkdicdat.fth
   COMMAND ${CMAKE_COMMAND} -E rename pfdicdat.h ../csrc/pfdicdat.h
   WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
-  DEPENDS pforth_dic
+  DEPENDS exforth_dic
   COMMENT Building pfdicdat.h
   VERBATIM
   )
-add_custom_target(pforth_dic_header DEPENDS ${PFORTH_DIC_HEADER})
-add_dependencies(${PROJECT_NAME}_lib_sd pforth_dic_header)
+  add_custom_target(exforth_dic_header DEPENDS ${EXFORTH_DIC_HEADER})
+add_dependencies(${PROJECT_NAME}_lib_sd exforth_dic_header)
 
-# 4. Build pforth_standalone using the precompiled dictionary.
-add_executable(pforth_standalone csrc/pf_main.c)
-target_link_libraries(pforth_standalone ${PROJECT_NAME}_lib_sd ${PFORTH_EXTRA_LIBS})
-target_compile_definitions(pforth_standalone PRIVATE PF_STATIC_DIC)
-add_dependencies(pforth_standalone pforth_dic_header)
+# 4. Build exforth_standalone using the precompiled dictionary.
+add_executable(exforth_standalone csrc/pf_main.c)
+target_link_libraries(exforth_standalone ${PROJECT_NAME}_lib_sd ${EXFORTH_EXTRA_LIBS})
+target_compile_definitions(exforth_standalone PRIVATE PF_STATIC_DIC)
+add_dependencies(exforth_standalone exforth_dic_header)

@@ -29,3 +29,7 @@ csrc/libPforth_lib_sd.a
 csrc/pfdicdat.h
 fth/pforth.core
 pforth.core
+
+fth/exforth.dic
+fth/exforth_standalone
+fth/exforth
