@@ -1,5 +1,7 @@
 # Ex:forth
 
+![](logo.png)
+
 Ex:forth is a
 [FORTH](https://forth-standard.org/)
 implementation based on
