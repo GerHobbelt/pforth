@@ -209,6 +209,11 @@ Those are:
 - `/usr/share/exforth/`
 - `~/.local/share/exforth/`
 
+This can be used for sharing code between projects.
+ex:forth by itself provides Gforth-compatible `random.fs`.
+While pforth has it's own RANDOM, you can find a extra 
+independent random number generator that can generate numbers in a range.
+
 Any other file operation is controlled by ALTER-PATH! and ALTER-PATH@.
 These operate on boolean values:
 
