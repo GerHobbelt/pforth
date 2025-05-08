@@ -31,9 +31,9 @@ jobs:
     - name: Test
       working-directory: ${{github.workspace}}/fth
       run: |
-        ./exorth_standalone t_corex.fth
-        ./exorth_standalone t_strings.fth
-        ./exorth_standalone t_locals.fth
-        ./exorth_standalone t_alloc.fth
-        ./exorth_standalone t_floats.fth
-        ./exorth_standalone t_file.fth
+        ./exforth_standalone t_corex.fth
+        ./exforth_standalone t_strings.fth
+        ./exforth_standalone t_locals.fth
+        ./exforth_standalone t_alloc.fth
+        ./exforth_standalone t_floats.fth
+        ./exforth_standalone t_file.fth
