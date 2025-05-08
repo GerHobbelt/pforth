@@ -151,11 +151,6 @@ T{ ' QUERY 0<> }T{ TRUE }T
 T{ ' REFILL 0<> }T{ TRUE }T
 
 \  ----------------------------------------------------- RESTORE-INPUT
-." sssssssssssssssssssss"
-." sssssssssssssssssssss"
-." sssssssssssssssssssss"
-." sssssssssssssssssssss"
-." sssssssssssssssssssss"
 T{ : T.SAVE-INPUT SAVE-INPUT RESTORE-INPUT ; T.SAVE-INPUT }T{ 0 }T
 
 \ TESTING SAVE-INPUT and RESTORE-INPUT with a string source
