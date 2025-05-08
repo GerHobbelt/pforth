@@ -1109,7 +1109,8 @@ cell_t ffConvertStreamToSourceID( FileStream *Stream )
     }
     else
     {
-        Result = (cell_t) Stream;
+        // OpenedFile compatible
+        Result = (cell_t) &Stream;
     }
     return Result;
 }

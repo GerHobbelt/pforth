@@ -44,6 +44,7 @@ Changes in '#include's due to file name changes are not included.
 - made ffIncludeFile work with ex_include_dirs.c
 - made ffIncludeFile work with alterPath
 - made it so that on error is thrown on BYE
+- made ffConvertStreamToSourceID be compatible with OpenedFile
 
 ## csrc/ex_inner.c
 - added case for token 'ID_INCLUDE_CLIB'
