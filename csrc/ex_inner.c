@@ -1110,7 +1110,8 @@ DBUG(("XX ah,m,l = 0x%8x,%8x,%8x - qh,l = 0x%8x,%8x\n", ah,am,al, qh,ql ));
             {
                 file_offset_t position;
                 FileID = (OpenedFile *) TOS;
-                position = sdTellFile( FileID->fs );
+                printf("ddddddddd");
+                position = sdTellFile( *(FileStream **) FileID );
                 if (position < 0)
                 {
                     M_PUSH(0); /* low */
