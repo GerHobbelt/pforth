@@ -19,27 +19,33 @@ It also has other stuff, but this is the reason you would want to use it over
 
 I think that FORTH is an interesting language and I like to use it from time
 to time.
-When I do so, i like to use some graphics library
+When I do so, I like to use some graphics library
 ([raylib](https://www.raylib.com/))
 and make little games with it.
 The problem is, that no FORTH implementation I know of supports C bindings.
 
-Yes, Gforth _claims_ to support C bindings, but they are broke on every platform
-I try it on.
+Yes,
+[Gforth](https://gforth.org/)
+_claims_ to support C bindings, but they are broken on every
+platform I try it on.
 This is most likely caused by Gforth devs forgetting that it's nice to make a
 release once in a while, so they ship a 10 years old version.
 You _can_ compile the current version, but I don't like that.
 
+It only works seamlessly on some platforms, requires a lot of additional bloat
+(latex, emacs...) and I prefer my projects to not require users to compile their
+own compiler.
+
 This led me to making my own FORTH that supports Gforth-like runtime bindings.
 
-I chose pforth as a base, as it is written in portable C
+I chose pforth as the base, as it is written in portable C
 (most implementations seem to be written in assembly for reasons)
 and has built-in feature to compile in new words, so it was easy to add
-runtime-bindings.
+runtime bindings.
 
 # Features
 
-Outside of all pforth's features and C bindings, ex:forth also added few
+Outside of all pforth's features and C bindings, ex:forth also adds few
 [words](doc/words.md).
 These include words for OS interaction, string manipulation, struct creation
 and more.
@@ -47,14 +53,14 @@ and more.
 Pforth does not fully supply all
 [standard wordsets](https://forth-standard.org/standard/words).
 
-Ex:forth does add few missing words, but many are still missing.
-You should still be able to do all the things you might want to.
+Ex:forth does add a few missing words, but many are still missing.
+However, you should still be able to do all the things you might want to.
 
 # Warnings
 
 This is a hobby project by one guy who knows nothing about FORTH, C, or even
 language implementations in general.
-It is mainly intended to fulfill my needs and probably has few bugs/flaws.
+It is mainly intended to fulfill my needs and probably has few a bugs/flaws.
 
 I do not try to sway you from using it.
 If you want to use C libraries with FORTH, I still believe ex:forth to be the
@@ -121,7 +127,6 @@ I only document the non-standard stuff I added.
 
 ### TODO:
 
-- Native Windows support
 - fix the underflow problems
 - missing standard extensions
     - search
@@ -130,3 +135,4 @@ I only document the non-standard stuff I added.
     - tools (some missing)
     - xchar (maybe....)
 - better debugging facility
+- Native Windows support (maybe, we'll see)

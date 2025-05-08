@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <title>ex:forth</title>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+   <main>
+      <div class="text-holder">
+
+         <!-- This is the title -->
+         <!-- <pre>s are always a bit of a pain to format -->
+         <pre class="title-pre">
+<span class="red">: ex:forth
+  <span class="purple">FORTH</span><span class="blue"> 1+ </span>;</span>
+         </pre>
+
+         <center>
+            <p>
+            The
+            <a href="https://forth-standard.org/">FORTH</a>
+            implementation based on
+            <a href="https://github.com/philburk/pforth">pforth</a>
+            that also speaks a bit of C.
+            </p>
+         </center>
+
+      </div>
+
+      <div class="text-holder">
+         <h2>But why another FORTH?</h2>
+         <p>
+         I think that FORTH is an interesting language and I like to use it from
+         time to time.
+         When I do so, I like to use some graphics library
+         (<a href="https://www.raylib.com/">raylib</a>)
+         and make little games with it.
+         The problem is, that no FORTH implementation I know of supports C
+         bindings.
+         </p>
+         <p>
+         Yes,
+         <a href="https://gforth.org/">Gforth</a>
+         <i>claims</i> to support C bindings, but they are broken on
+         every platform I try it on.
+         This is most likely caused by Gforth devs forgetting that it's nice to
+         make a release once in a while, so they ship a 10 years old version.
+         You <i>can</i> compile the current version, but I don't like that.
+         </p><p>
+         It only works seamlessly on some platforms, requires a lot of
+         additional bloat
+         (latex, emacs...) and I prefer my projects to not require users to
+         compile their own compiler.
+         </p><p>
+         This led me to making my own FORTH that supports Gforth-like runtime
+         bindings.
+         </p><p>
+         I chose pforth as the base, as it is written in portable C
+         (most implementations seem to be written in assembly for reasons)
+         and has built-in feature to compile in new words, so it was easy to add
+         runtime bindings.
+         </p>
+      </div>
+
+      <div class="text-holder">
+         <h2>What do I gain?</h2>
+         <ul>
+            <li>All of the FORTH implemented in pforth</li>
+            <li>Gforth-inspired C bindings</li>
+            <li>Runtime C compilation</li>
+            <li>Some extra wordsets not present in pforth</li>
+            <li>Some non-standard words
+                (some borrowed from Gforth, some not)</li>
+            <li>Global ex:forth library system</li>
+         </ul>
+
+         <p>For more information, consult the
+         <a href
+              ="https://github.com/De-Alchmst/ex-forth/blob/master/doc/index.md"
+         >manual</a>.</p>
+      </div>
+
+      <div class="text-holder">
+         <h2>What do I <s>loose</s> not gain?</h2>
+         <ul>
+            <li>Some standard wordsets are missing</li>
+            <li>
+               Currently only *NIX platforms are supported
+               (Works on Windows via
+               <a href="https://cygwin.com/">Cygwin</a>)
+            </li>
+            <li>Some pforth incompatibilities:</li>
+            <ul>
+               <li>
+                  <code>TO</code> can no longer assign to words created
+                  via <code>VARIABLE</code> and <code>CREATE</code>
+               </li>
+               <li>
+                  By default, paths are resolved relative to the currently
+                  evaluated file.
+               </li>
+               <li>
+                  Defining custom C words at runtime is done a bit differently
+               </li>
+            </ul>
+         </ul>
+      </div>
+
+      <div class="text-holder">
+         <h2 class="red">!!WARNING!!</h2>
+         <p>
+         This is a hobby project by one guy who knows nothing about FORTH, C,
+         or even language implementations in general.
+         It is mainly intended to fulfill my needs and probably has a few
+         bugs/flaws.
+         </p><p>
+         I do not try to sway you from using it.
+         If you want to use C libraries with FORTH, I still believe ex:forth to
+         be the best choice.
+         (tell me if there is a better one, I would like to know)
+         Just take it for what it is and don't expect perfection.
+         </p>
+         <p><b>YOU HAVE BEEN WARNED!</b></p>
+      </div>
+
+      <div class="text-holder">
+         <h2>Development status : <span class="orange">Maintenance</span></h2>
+         <p>
+         I'm currently focusing on projects that do not include FORTH, so
+         ex:forth is not in active development (or used at all for that matter).
+         I do however actively pull all changes made in pforth.
+         </p>
+         <p>
+         Tho I'm sure that one day I will decide to pick up FROTH once again and
+         more progress will be made.
+         That day has just not came yet.
+         </p>
+      </div>
+
+      <div class="text-holder">
+         <h2>Made with ex:forth</h2>
+         <ul>
+            <li>
+               <a href="https://github.com/De-Alchmst/ex-forth-tetris">
+                  ex:forth-tetris
+               </a>
+            </li>
+         </ul>
+         <p>
+            If you made something cool, please tell me!
+            I would like to know that I made something useful for once.
+         </p>
+      </div>
+
+      <div class="text-holder">
+         <h2>Links</h2>
+         <center>
+            <a href="https://github.com/De-Alchmst/ex-forth">GitHub repo</a>
+            |
+            <a href="https://ctrl-c.club/~de_alchmst/b-logs/forth/ex-forth/">
+               development blog
+            </a>
+            |
+            <a href="https://github.com/morhetz/gruvbox">Theme used</a>
+         </center>
+      </div>
+   </main>
+</body>
+</html>

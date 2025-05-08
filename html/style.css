@@ -1,0 +1,109 @@
+@import url('https://free.bboxtype.com/embedfonts/?family=FiraMono:500');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+   --bg:      #fbf1c7;
+   --bg-dark: #ebdbb2;
+   --fg:      #3c3836;
+   --red:     #cc241d;
+   --green:   #98971a;
+   --yellow:  #d79921;
+   --blue:    #458588;
+   --purple:  #b16286;
+   --aqua:    #689d6a;
+   --orange:  #d65d0e;
+   --text-width: 80ch;
+   background-color: var(--bg-dark);
+   color: var(--fg);
+   font-family: 'Noto Sans', sans-serif;
+}
+
+
+.red {
+   color: var(--red);
+}
+
+.green {
+   color: var(--green);
+}
+
+.yellow {
+   color: var(--yellow);
+}
+
+.blue {
+   color: var(--blue);
+}
+
+.purple {
+   color: var(--purple);
+}
+
+.aqua {
+   color: var(--aqua);
+}
+
+.orange {
+   color: var(--orange);
+}
+
+
+a {
+   color: var(--blue);
+}
+
+code {
+   font-family: 'Fira Mono', monospace;
+}
+
+
+.title-pre {
+   margin: 0 0;
+   display: flex;
+   justify-content: center;
+   font-size: 1.3rem;
+   font-family: 'Fira Mono', monospace;
+}
+
+.text-holder {
+   background-color: var(--bg);
+   max-width: calc(var(--text-width) + 2rem);
+   margin: 1rem auto;
+   padding: 1rem;
+   border-radius: 0.75rem;
+}
+
+
+h2 {
+   margin: 0 0;
+   color: var(--green);
+}
+
+
+/* scrollbar */
+
+::-webkit-scrollbar {
+   width: 8px;
+   height: 8px;
+}
+
+::-webkit-scrollbar-track {
+   background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+   background: var(--bg);
+}
+
+
+/* selection */
+
+::-moz-selection { /* Code for Firefox */
+  color: var(--bg);
+  background: var(--blue);
+}
+
+::selection {
+  color: var(--bg);
+  background: var(--blue);
+}
